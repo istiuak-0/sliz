@@ -3,7 +3,7 @@
 import { cac } from "cac"
 import { readFileSync, writeFileSync } from "fs"
 import { join } from "path"
-import { Aml } from "../compiler/index.js"
+import { Compile } from "../compiler/compile"
 
 const cli = cac("aml")
 const root = process.cwd()
@@ -20,7 +20,7 @@ cli
 
     const inputFilePath = join(root, options.input)
     const content = readFileSync(inputFilePath, "utf8")
-    const compiled = new Aml().compile(content)
+    const compiled = Compile(content)
     const outputFilePath = join(root, options.output);
     writeFileSync(outputFilePath, compiled, "utf8")
   })

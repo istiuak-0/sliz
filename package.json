@@ -10,7 +10,8 @@
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "link": "pnpm build && pnpm add --global .",
-    "unlink": "pnpm remove --global aml"
+    "unlink": "pnpm remove --global aml",
+    "pc": "aml compile --input ./playground/input.aml --output ./playground/output"
   },
   "license": "MIT",
   "dependencies": {
