@@ -20,7 +20,8 @@
 		]
 	},
 	"include": [
-		"src/**/*.ts",
-		"src/**/*.d.ts",
+		"compiler/**/*.ts",
+		"cli/**/*.ts",
+		"connector/**/*.ts",
 	]
 }

@@ -1,21 +1,20 @@
 {
-  "name": "sliz",
+  "name": "aml",
   "version": "0.0.1",
   "private": true,
-  "description": "Sliz template engine compiler — CLI",
   "bin": {
-    "sliz": "dist/bin.mjs"
+    "aml": "dist/bin.mjs"
   },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "link": "pnpm build && pnpm add --global .",
-    "unlink": "pnpm remove --global @aromix/cli"
+    "unlink": "pnpm remove --global aml"
   },
   "license": "MIT",
   "dependencies": {
-    "esbuild": "^0.25.0"
+    "cac": "^7.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
