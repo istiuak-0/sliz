@@ -1,0 +1,25 @@
+{
+  "name": "sliz",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Sliz template engine compiler — CLI",
+  "bin": {
+    "sliz": "dist/bin.mjs"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "link": "pnpm build && pnpm add --global .",
+    "unlink": "pnpm remove --global @aromix/cli"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "esbuild": "^0.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsup": "^8.5.1",
+    "typescript": "^5.8.0"
+  }
+}
