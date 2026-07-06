@@ -1,12 +1,19 @@
-export component Button {
-  <script>
+export tag Button {
+  <setup>
     const props = defineProps({
       label:   String,
       variant: String,
     })
-  </script>
+  </setup>
 
   <button class="btn">
     {props.label}
   </button>
+}
+
+
+export attribute lay {
+
+
+  
 }
