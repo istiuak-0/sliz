@@ -5,12 +5,12 @@ import { readFileSync, writeFileSync } from "fs"
 import { join } from "path"
 import { Compile } from "../compiler/compile"
 
-const cli = cac("aml")
+const cli = cac("jml")
 const root = process.cwd()
 
 cli
-  .command("compile", "Compile a .aml file")
-  .option("--input <path>", "Input .sliz file")
+  .command("compile", "Compile a .jml file")
+  .option("--input <path>", "Input .jml file")
   .option("--output <path>", "Output file")
   .action((options: { input?: string; output?: string }) => {
     if (!options.input || !options.output) {

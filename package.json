@@ -1,17 +1,17 @@
 {
-  "name": "aml",
+  "name": "jml",
   "version": "0.0.1",
   "private": true,
   "bin": {
-    "aml": "dist/bin.mjs"
+    "jml": "dist/bin.mjs"
   },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "link": "pnpm build && pnpm add --global .",
-    "unlink": "pnpm remove --global aml",
-    "pc": "aml compile --input ./playground/input.aml --output ./playground/output"
+    "unlink": "pnpm remove --global jml",
+    "pc": "jml compile --input ./playground/input.jml --output ./playground/output"
   },
   "license": "MIT",
   "dependencies": {
