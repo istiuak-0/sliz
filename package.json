@@ -3,14 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "typecheck": "tsc --noEmit"
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "clean": "pnpm -r clean"
   },
-  "license": "MIT",
-  "devDependencies": {
-    "@types/node": "^22.0.0",
-    "tsup": "^8.5.1",
-    "typescript": "^5.8.0"
-  }
+  "license": "MIT"
 }
