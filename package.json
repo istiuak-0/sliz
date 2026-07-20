@@ -1,15 +1,17 @@
 {
-  "name": "jml",
-  "version": "0.0.1",
-  "type": "module",
-  "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "typecheck": "tsc --noEmit"
-  },
-  "devDependencies": {
-    "@types/node": "^22.0.0",
-    "tsup": "^8.5.1",
-    "typescript": "^5.8.0"
-  }
+	"name": "jml",
+	"version": "0.0.1",
+	"type": "module",
+	"scripts": {
+		"build": "tsup",
+		"dev": "tsup --watch",
+		"typecheck": "tsc --noEmit",
+		"format": "biome format --write ."
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"@types/node": "^22.0.0",
+		"tsup": "^8.5.1",
+		"typescript": "^5.8.0"
+	}
 }

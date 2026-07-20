@@ -7,11 +7,10 @@ annotations.
 
 ## 1. Primitives
 
-| Primitive | Purpose                                     | Execution   |
-| --------- | ------------------------------------------- | ----------- |
-| `tag`     | Reusable markup component                   | Render-time |
-| `trait`   | Behavior attached to an element             | Client      |
-| `lay`     | Declarative styling and interaction binding | Build-time  |
+| Primitive | Purpose                         | Execution   |
+| --------- | ------------------------------- | ----------- |
+| `tag`     | Reusable markup component       | Render-time |
+| `trait`   | Behavior attached to an element | Client      |
 
 ## 2. `tag`
 

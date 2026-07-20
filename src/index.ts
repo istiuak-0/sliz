@@ -1,4 +1,4 @@
-import { Tokenize } from "./lexer/lexer";
+import { Tokenize } from './lexer/lexer'
 
 Tokenize(`
 @with(props.user.profile) {
@@ -7,4 +7,4 @@ Tokenize(`
     <p>{address.city}</p>
   </div>
 }
-`);
+`)
