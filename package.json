@@ -2,21 +2,12 @@
   "name": "jml",
   "version": "0.0.1",
   "private": true,
-  "bin": {
-    "jml": "dist/bin.mjs"
-  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "typecheck": "tsc --noEmit",
-    "link": "pnpm build && pnpm add --global .",
-    "unlink": "pnpm remove --global jml",
-    "pc": "jml compile --input ./playground/input.jml --output ./playground/output"
+    "typecheck": "tsc --noEmit"
   },
   "license": "MIT",
-  "dependencies": {
-    "cac": "^7.0.0"
-  },
   "devDependencies": {
     "@types/node": "^22.0.0",
     "tsup": "^8.5.1",
