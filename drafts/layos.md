@@ -1,22 +1,28 @@
 # Layos — Spec
 
-**Directive:** `lay=""`
-**Package:** `layos`
-**Status:** Pre-implementation, planning phase
-**Standalone** — works with any component framework that supports custom directives
+**Directive:** `lay=""` **Package:** `layos` **Status:** Pre-implementation,
+planning phase **Standalone** — works with any component framework that supports
+custom directives
 
 ---
 
 ## What Is Layos
 
-Layos is a styling and interaction system expressed through a single directive. It is not CSS. It does not generate class names, inject stylesheets, or use a style tag. Styles and interactions are computed from state and applied directly to elements.
+Layos is a styling and interaction system expressed through a single directive.
+It is not CSS. It does not generate class names, inject stylesheets, or use a
+style tag. Styles and interactions are computed from state and applied directly
+to elements.
 
 Two modes work together:
 
-- **Immediate** — styles recompute and apply directly on every frame when reactive state changes. Style is a function of state, not a persistent rule.
-- **Direct** — no stylesheet, no class generation, no injection. Applied straight to the element.
+- **Immediate** — styles recompute and apply directly on every frame when
+  reactive state changes. Style is a function of state, not a persistent rule.
+- **Direct** — no stylesheet, no class generation, no injection. Applied
+  straight to the element.
 
-This means Layos works in any runtime — browser, TUI, native — as long as the host framework supports the `lay` directive. The same component code runs everywhere with a different renderer behind it.
+This means Layos works in any runtime — browser, TUI, native — as long as the
+host framework supports the `lay` directive. The same component code runs
+everywhere with a different renderer behind it.
 
 ---
 
@@ -30,7 +36,8 @@ Everything lives in one attribute:
 <input lay="border:gray pad:2 focus:[border:primary glow]">
 ```
 
-Tokens are space-separated. Order does not matter. Each token is a shorthand, a `property:value` pair, a state block, or an interaction.
+Tokens are space-separated. Order does not matter. Each token is a shorthand, a
+`property:value` pair, a state block, or an interaction.
 
 ---
 
@@ -79,16 +86,16 @@ m-b:2             margin-bottom: 0.5rem
 
 Spacing scale — multiples of 0.25rem:
 
-| Token | Value |
-|---|---|
-| 1 | 0.25rem |
-| 2 | 0.5rem |
-| 3 | 0.75rem |
-| 4 | 1rem |
-| 6 | 1.5rem |
-| 8 | 2rem |
-| 12 | 3rem |
-| 16 | 4rem |
+| Token | Value   |
+| ----- | ------- |
+| 1     | 0.25rem |
+| 2     | 0.5rem  |
+| 3     | 0.75rem |
+| 4     | 1rem    |
+| 6     | 1.5rem  |
+| 8     | 2rem    |
+| 12    | 3rem    |
+| 16    | 4rem    |
 
 ---
 
@@ -112,7 +119,8 @@ aspect:video      aspect-ratio: 16 / 9
 
 ## Color
 
-Colors reference the theme by name. No raw hex values in `lay=""` — those belong in theme config.
+Colors reference the theme by name. No raw hex values in `lay=""` — those belong
+in theme config.
 
 ```
 bg:primary        background: theme.colors.primary
@@ -291,7 +299,8 @@ xl:[tokens]       applies at xl breakpoint and above
 
 ## Interactions
 
-Interactions are behaviors triggered by events. They live in `lay=""` alongside styling tokens.
+Interactions are behaviors triggered by events. They live in `lay=""` alongside
+styling tokens.
 
 ### Built-in Interactions
 
@@ -347,7 +356,8 @@ drag:free(bounds:parent snap:grid)
 
 ## Reactive Tokens
 
-Since Layos is immediate mode, any token value can be a reactive expression. The host framework feeds signal values — Layos reapplies on change.
+Since Layos is immediate mode, any token value can be a reactive expression. The
+host framework feeds signal values — Layos reapplies on change.
 
 In Sliz:
 
@@ -361,7 +371,8 @@ In Sliz:
 <div lay="pad:{size} bg:{active ? theme : 'surface'} round">
 ```
 
-The `{ }` syntax is the host framework's interpolation — in Sliz this is `{expr}`. In other frameworks use their equivalent.
+The `{ }` syntax is the host framework's interpolation — in Sliz this is
+`{expr}`. In other frameworks use their equivalent.
 
 ---
 
@@ -371,7 +382,7 @@ Define complex styles in JS, reference by name:
 
 ```typescript
 // styles.ts
-import { define } from "layos"
+import { define } from "layos";
 
 export const heroCard = define({
   tokens: "flex col pad:8 gap:4 bg:surface round:lg shadow:lg",
@@ -381,8 +392,8 @@ export const heroCard = define({
   interactions: {
     mount: "fade-in",
     hover: "lift",
-  }
-})
+  },
+});
 ```
 
 ```sliz
@@ -400,14 +411,14 @@ export const heroCard = define({
 // layos.config.ts
 export default {
   colors: {
-    primary:       "#3b82f6",
+    primary: "#3b82f6",
     "primary-dark": "#2563eb",
-    secondary:     "#8b5cf6",
-    danger:        "#ef4444",
-    success:       "#10b981",
-    surface:       "#ffffff",
-    muted:         "#6b7280",
-    border:        "#e5e7eb",
+    secondary: "#8b5cf6",
+    danger: "#ef4444",
+    success: "#10b981",
+    surface: "#ffffff",
+    muted: "#6b7280",
+    border: "#e5e7eb",
   },
 
   spacing: {
@@ -422,11 +433,11 @@ export default {
   },
 
   fontSizes: {
-    xs:   "0.75rem",
-    sm:   "0.875rem",
+    xs: "0.75rem",
+    sm: "0.875rem",
     base: "1rem",
-    lg:   "1.125rem",
-    xl:   "1.25rem",
+    lg: "1.125rem",
+    xl: "1.25rem",
     "2xl": "1.5rem",
   },
 
@@ -440,18 +451,18 @@ export default {
   // custom composite shorthands
   shortcuts: {
     glass: {
-      background:     "rgba(255,255,255,0.1)",
+      background: "rgba(255,255,255,0.1)",
       backdropFilter: "blur(10px)",
-      border:         "1px solid rgba(255,255,255,0.2)",
+      border: "1px solid rgba(255,255,255,0.2)",
     },
     card: {
-      background:   "white",
+      background: "white",
       borderRadius: "0.5rem",
-      padding:      "1.5rem",
-      boxShadow:    "0 1px 3px rgba(0,0,0,0.1)",
-    }
-  }
-}
+      padding: "1.5rem",
+      boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+    },
+  },
+};
 ```
 
 ---
@@ -459,30 +470,30 @@ export default {
 ## Plugin API
 
 ```typescript
-import { registerInteraction, registerShortcut, registerState } from "layos"
+import { registerInteraction, registerShortcut, registerState } from "layos";
 
 // custom interaction
 registerInteraction("confetti", {
   onClick: (e, el, config) => {
     // confetti implementation
-  }
-})
+  },
+});
 
 // custom shorthand
 registerShortcut("frosted", {
-  background:     "rgba(255,255,255,0.15)",
+  background: "rgba(255,255,255,0.15)",
   backdropFilter: "blur(20px)",
-  border:         "1px solid rgba(255,255,255,0.3)",
-})
+  border: "1px solid rgba(255,255,255,0.3)",
+});
 
 // custom state
 registerState("loading", (el, active) => {
   if (active) {
-    el.classList.add("lay-loading")
+    el.classList.add("lay-loading");
   } else {
-    el.classList.remove("lay-loading")
+    el.classList.remove("lay-loading");
   }
-})
+});
 ```
 
 ```sliz
@@ -495,20 +506,24 @@ registerState("loading", (el, active) => {
 
 ## Runtime Adapters
 
-Layos ships adapters for different rendering targets. Same `lay=""` tokens, different output.
+Layos ships adapters for different rendering targets. Same `lay=""` tokens,
+different output.
 
 ### Browser
 
-Applies CSS properties directly to `element.style`. No stylesheet. Reactive updates patch only changed properties.
+Applies CSS properties directly to `element.style`. No stylesheet. Reactive
+updates patch only changed properties.
 
 ### TUI (Terminal)
 
-Maps layout tokens to terminal layout primitives. `flex col` becomes vertical stacking, `pad:2` becomes character padding. Color tokens map to terminal colors.
+Maps layout tokens to terminal layout primitives. `flex col` becomes vertical
+stacking, `pad:2` becomes character padding. Color tokens map to terminal
+colors.
 
 ### Custom Runtime
 
 ```typescript
-import { createRuntime } from "layos"
+import { createRuntime } from "layos";
 
 const myRuntime = createRuntime({
   applyStyle: (el, property, value) => {
@@ -516,25 +531,25 @@ const myRuntime = createRuntime({
   },
   applyInteraction: (el, name, config) => {
     // wire up interaction to your event system
-  }
-})
+  },
+});
 ```
 
 ---
 
 ## Stability
 
-| Symbol | Tier |
-|---|---|
-| `lay=""` directive | LOCKED |
-| Token syntax `property:value` | LOCKED |
-| State block syntax `state:[ ]` | LOCKED |
-| Breakpoint syntax `md:[ ]` | LOCKED |
-| Interaction syntax `event:name` | LOCKED |
-| Dynamic ref syntax `$name` | LOCKED |
-| Built-in token set | EXTENSIBLE |
-| Built-in interactions | EXTENSIBLE |
-| Theme config shape | EXTENSIBLE |
-| Plugin API | LOCKED |
-| Runtime adapter API | LOCKED |
-| Browser renderer internals | INTERNAL |
+| Symbol                          | Tier       |
+| ------------------------------- | ---------- |
+| `lay=""` directive              | LOCKED     |
+| Token syntax `property:value`   | LOCKED     |
+| State block syntax `state:[ ]`  | LOCKED     |
+| Breakpoint syntax `md:[ ]`      | LOCKED     |
+| Interaction syntax `event:name` | LOCKED     |
+| Dynamic ref syntax `$name`      | LOCKED     |
+| Built-in token set              | EXTENSIBLE |
+| Built-in interactions           | EXTENSIBLE |
+| Theme config shape              | EXTENSIBLE |
+| Plugin API                      | LOCKED     |
+| Runtime adapter API             | LOCKED     |
+| Browser renderer internals      | INTERNAL   |

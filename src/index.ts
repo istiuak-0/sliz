@@ -7,4 +7,4 @@ Tokenize(`
     <p>{address.city}</p>
   </div>
 }
-`)
+`);
