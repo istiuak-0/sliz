@@ -1,6 +1,3 @@
-/**
- * The type of macro block — currently `tml` (template markup) or `jml` (JSX markup).
- */
 export type MacroChunkType = 'tml' | 'jml'
 
 /**
@@ -8,7 +5,7 @@ export type MacroChunkType = 'tml' | 'jml'
  * `start` and `end` are absolute offsets into the source string, enabling
  * surgical replacement without disturbing surrounding code.
  */
-export interface MacroChunks {
+export interface MacroChunk {
 	type: MacroChunkType
 	content: string
 	start: number

@@ -25,6 +25,8 @@ export const CharCodes = {
 	Slash: 47, // '/'
 	Percent: 37, // '%'
 	Equals: 61, // '='
+	LessThan: 60, // '<'
+	GreaterThan: 62, // '>'
 
 	Ampersand: 38, // '&'
 	Pipe: 124, // '|'
@@ -41,6 +43,8 @@ export const CharCodes = {
 	DollarSign: 36, // '$'
 	Underscore: 95, // '_'
 	Backslash: 92, // '\\'
+	Dot: 46, // '.'
+	AtSign: 64, // '@'
 
 	// ==>> Digits
 	Zero: 48, // '0'
@@ -51,4 +55,6 @@ export const CharCodes = {
 	UpperZ: 90, // 'Z'
 	LowerA: 97, // 'a'
 	LowerZ: 122, // 'z'
+	LowerJ: 106, // 'j'
+	LowerT: 116, // 't'
 } as const

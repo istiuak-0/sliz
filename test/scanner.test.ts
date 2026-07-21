@@ -471,7 +471,7 @@ describe('Whitespace variations', () => {
 	})
 
 	it('handles tab indentation in body', () => {
-		const src = "const x = tml! {\n\t<div />\n}"
+		const src = 'const x = tml! {\n\t<div />\n}'
 		const result = scanContent(src)
 		expect(result).toHaveLength(1)
 		expect(result[0]).toContain(`tml! {`)
@@ -590,7 +590,7 @@ const y = 2`
 	})
 
 	it('handles Windows line endings', () => {
-		const src = "const x = tml! {\r\n  <div />\r\n}"
+		const src = 'const x = tml! {\r\n  <div />\r\n}'
 		const result = scanContent(src)
 		expect(result).toHaveLength(1)
 	})

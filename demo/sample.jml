@@ -19,6 +19,7 @@ const model = (ctx: TraitContext<HTMLInputElement, string>) => {
 }
 
 const Avatar = tml! {
+	@input({ user:User, onUpdate: Function })
 	<div class="avatar">
 		<img src={user.avatar} alt={user.name} />
 	</div>

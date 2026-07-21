@@ -1,0 +1,3758 @@
+[
+  {
+    "type": "tml",
+    "range": {
+      "start": 398,
+      "end": 523
+    },
+    "content": "tml! {\n\t@input({ user:User, onUpdate: Function })\n\t<div class=\"avatar\">\n\t\t<img src={user.avatar} alt={user.name} />\n\t</div>\n}",
+    "tokens": [
+      {
+        "kind": "Tml",
+        "value": "tml!",
+        "range": {
+          "start": {
+            "offset": 0,
+            "line": 0,
+            "column": 0
+          },
+          "end": {
+            "offset": 4,
+            "line": 0,
+            "column": 4
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 5,
+            "line": 0,
+            "column": 5
+          },
+          "end": {
+            "offset": 6,
+            "line": 0,
+            "column": 6
+          }
+        }
+      },
+      {
+        "kind": "At",
+        "value": "@",
+        "range": {
+          "start": {
+            "offset": 8,
+            "line": 0,
+            "column": 8
+          },
+          "end": {
+            "offset": 9,
+            "line": 0,
+            "column": 9
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "input",
+        "range": {
+          "start": {
+            "offset": 9,
+            "line": 0,
+            "column": 9
+          },
+          "end": {
+            "offset": 14,
+            "line": 0,
+            "column": 14
+          }
+        }
+      },
+      {
+        "kind": "OpenParen",
+        "value": "(",
+        "range": {
+          "start": {
+            "offset": 14,
+            "line": 0,
+            "column": 14
+          },
+          "end": {
+            "offset": 15,
+            "line": 0,
+            "column": 15
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 15,
+            "line": 0,
+            "column": 15
+          },
+          "end": {
+            "offset": 16,
+            "line": 0,
+            "column": 16
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "user",
+        "range": {
+          "start": {
+            "offset": 17,
+            "line": 0,
+            "column": 17
+          },
+          "end": {
+            "offset": 21,
+            "line": 0,
+            "column": 21
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "User",
+        "range": {
+          "start": {
+            "offset": 22,
+            "line": 0,
+            "column": 22
+          },
+          "end": {
+            "offset": 26,
+            "line": 0,
+            "column": 26
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "onUpdate",
+        "range": {
+          "start": {
+            "offset": 28,
+            "line": 0,
+            "column": 28
+          },
+          "end": {
+            "offset": 36,
+            "line": 0,
+            "column": 36
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "Function",
+        "range": {
+          "start": {
+            "offset": 38,
+            "line": 0,
+            "column": 38
+          },
+          "end": {
+            "offset": 46,
+            "line": 0,
+            "column": 46
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 47,
+            "line": 0,
+            "column": 47
+          },
+          "end": {
+            "offset": 48,
+            "line": 0,
+            "column": 48
+          }
+        }
+      },
+      {
+        "kind": "CloseParen",
+        "value": ")",
+        "range": {
+          "start": {
+            "offset": 48,
+            "line": 0,
+            "column": 48
+          },
+          "end": {
+            "offset": 49,
+            "line": 0,
+            "column": 49
+          }
+        }
+      },
+      {
+        "kind": "OpenTag",
+        "value": "<",
+        "range": {
+          "start": {
+            "offset": 51,
+            "line": 0,
+            "column": 51
+          },
+          "end": {
+            "offset": 52,
+            "line": 0,
+            "column": 52
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "div",
+        "range": {
+          "start": {
+            "offset": 52,
+            "line": 0,
+            "column": 52
+          },
+          "end": {
+            "offset": 55,
+            "line": 0,
+            "column": 55
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "class",
+        "range": {
+          "start": {
+            "offset": 56,
+            "line": 0,
+            "column": 56
+          },
+          "end": {
+            "offset": 61,
+            "line": 0,
+            "column": 61
+          }
+        }
+      },
+      {
+        "kind": "Equals",
+        "value": "=",
+        "range": {
+          "start": {
+            "offset": 61,
+            "line": 0,
+            "column": 61
+          },
+          "end": {
+            "offset": 62,
+            "line": 0,
+            "column": 62
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "avatar",
+        "range": {
+          "start": {
+            "offset": 63,
+            "line": 0,
+            "column": 63
+          },
+          "end": {
+            "offset": 69,
+            "line": 0,
+            "column": 69
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 70,
+            "line": 0,
+            "column": 70
+          },
+          "end": {
+            "offset": 71,
+            "line": 0,
+            "column": 71
+          }
+        }
+      },
+      {
+        "kind": "OpenTag",
+        "value": "<",
+        "range": {
+          "start": {
+            "offset": 74,
+            "line": 0,
+            "column": 74
+          },
+          "end": {
+            "offset": 75,
+            "line": 0,
+            "column": 75
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "img",
+        "range": {
+          "start": {
+            "offset": 75,
+            "line": 0,
+            "column": 75
+          },
+          "end": {
+            "offset": 78,
+            "line": 0,
+            "column": 78
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "src",
+        "range": {
+          "start": {
+            "offset": 79,
+            "line": 0,
+            "column": 79
+          },
+          "end": {
+            "offset": 82,
+            "line": 0,
+            "column": 82
+          }
+        }
+      },
+      {
+        "kind": "Equals",
+        "value": "=",
+        "range": {
+          "start": {
+            "offset": 82,
+            "line": 0,
+            "column": 82
+          },
+          "end": {
+            "offset": 83,
+            "line": 0,
+            "column": 83
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 83,
+            "line": 0,
+            "column": 83
+          },
+          "end": {
+            "offset": 84,
+            "line": 0,
+            "column": 84
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "user",
+        "range": {
+          "start": {
+            "offset": 84,
+            "line": 0,
+            "column": 84
+          },
+          "end": {
+            "offset": 88,
+            "line": 0,
+            "column": 88
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "avatar",
+        "range": {
+          "start": {
+            "offset": 89,
+            "line": 0,
+            "column": 89
+          },
+          "end": {
+            "offset": 95,
+            "line": 0,
+            "column": 95
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 95,
+            "line": 0,
+            "column": 95
+          },
+          "end": {
+            "offset": 96,
+            "line": 0,
+            "column": 96
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "alt",
+        "range": {
+          "start": {
+            "offset": 97,
+            "line": 0,
+            "column": 97
+          },
+          "end": {
+            "offset": 100,
+            "line": 0,
+            "column": 100
+          }
+        }
+      },
+      {
+        "kind": "Equals",
+        "value": "=",
+        "range": {
+          "start": {
+            "offset": 100,
+            "line": 0,
+            "column": 100
+          },
+          "end": {
+            "offset": 101,
+            "line": 0,
+            "column": 101
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 101,
+            "line": 0,
+            "column": 101
+          },
+          "end": {
+            "offset": 102,
+            "line": 0,
+            "column": 102
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "user",
+        "range": {
+          "start": {
+            "offset": 102,
+            "line": 0,
+            "column": 102
+          },
+          "end": {
+            "offset": 106,
+            "line": 0,
+            "column": 106
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "name",
+        "range": {
+          "start": {
+            "offset": 107,
+            "line": 0,
+            "column": 107
+          },
+          "end": {
+            "offset": 111,
+            "line": 0,
+            "column": 111
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 111,
+            "line": 0,
+            "column": 111
+          },
+          "end": {
+            "offset": 112,
+            "line": 0,
+            "column": 112
+          }
+        }
+      },
+      {
+        "kind": "SelfClosingTag",
+        "value": "/>",
+        "range": {
+          "start": {
+            "offset": 113,
+            "line": 0,
+            "column": 113
+          },
+          "end": {
+            "offset": 115,
+            "line": 0,
+            "column": 115
+          }
+        }
+      },
+      {
+        "kind": "CloseTag",
+        "value": "</",
+        "range": {
+          "start": {
+            "offset": 117,
+            "line": 0,
+            "column": 117
+          },
+          "end": {
+            "offset": 119,
+            "line": 0,
+            "column": 119
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "div",
+        "range": {
+          "start": {
+            "offset": 119,
+            "line": 0,
+            "column": 119
+          },
+          "end": {
+            "offset": 122,
+            "line": 0,
+            "column": 122
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 122,
+            "line": 0,
+            "column": 122
+          },
+          "end": {
+            "offset": 123,
+            "line": 0,
+            "column": 123
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 124,
+            "line": 0,
+            "column": 124
+          },
+          "end": {
+            "offset": 125,
+            "line": 0,
+            "column": 125
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "tml",
+    "range": {
+      "start": 542,
+      "end": 630
+    },
+    "content": "tml! {\n\t<div class=\"card\">\n\t\t<Avatar user={user} />\n\t\t<span>{user.name}</span>\n\t</div>\n}",
+    "tokens": [
+      {
+        "kind": "Tml",
+        "value": "tml!",
+        "range": {
+          "start": {
+            "offset": 0,
+            "line": 0,
+            "column": 0
+          },
+          "end": {
+            "offset": 4,
+            "line": 0,
+            "column": 4
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 5,
+            "line": 0,
+            "column": 5
+          },
+          "end": {
+            "offset": 6,
+            "line": 0,
+            "column": 6
+          }
+        }
+      },
+      {
+        "kind": "OpenTag",
+        "value": "<",
+        "range": {
+          "start": {
+            "offset": 8,
+            "line": 0,
+            "column": 8
+          },
+          "end": {
+            "offset": 9,
+            "line": 0,
+            "column": 9
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "div",
+        "range": {
+          "start": {
+            "offset": 9,
+            "line": 0,
+            "column": 9
+          },
+          "end": {
+            "offset": 12,
+            "line": 0,
+            "column": 12
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "class",
+        "range": {
+          "start": {
+            "offset": 13,
+            "line": 0,
+            "column": 13
+          },
+          "end": {
+            "offset": 18,
+            "line": 0,
+            "column": 18
+          }
+        }
+      },
+      {
+        "kind": "Equals",
+        "value": "=",
+        "range": {
+          "start": {
+            "offset": 18,
+            "line": 0,
+            "column": 18
+          },
+          "end": {
+            "offset": 19,
+            "line": 0,
+            "column": 19
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "card",
+        "range": {
+          "start": {
+            "offset": 20,
+            "line": 0,
+            "column": 20
+          },
+          "end": {
+            "offset": 24,
+            "line": 0,
+            "column": 24
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 25,
+            "line": 0,
+            "column": 25
+          },
+          "end": {
+            "offset": 26,
+            "line": 0,
+            "column": 26
+          }
+        }
+      },
+      {
+        "kind": "OpenTag",
+        "value": "<",
+        "range": {
+          "start": {
+            "offset": 29,
+            "line": 0,
+            "column": 29
+          },
+          "end": {
+            "offset": 30,
+            "line": 0,
+            "column": 30
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "Avatar",
+        "range": {
+          "start": {
+            "offset": 30,
+            "line": 0,
+            "column": 30
+          },
+          "end": {
+            "offset": 36,
+            "line": 0,
+            "column": 36
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "user",
+        "range": {
+          "start": {
+            "offset": 37,
+            "line": 0,
+            "column": 37
+          },
+          "end": {
+            "offset": 41,
+            "line": 0,
+            "column": 41
+          }
+        }
+      },
+      {
+        "kind": "Equals",
+        "value": "=",
+        "range": {
+          "start": {
+            "offset": 41,
+            "line": 0,
+            "column": 41
+          },
+          "end": {
+            "offset": 42,
+            "line": 0,
+            "column": 42
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 42,
+            "line": 0,
+            "column": 42
+          },
+          "end": {
+            "offset": 43,
+            "line": 0,
+            "column": 43
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "user",
+        "range": {
+          "start": {
+            "offset": 43,
+            "line": 0,
+            "column": 43
+          },
+          "end": {
+            "offset": 47,
+            "line": 0,
+            "column": 47
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 47,
+            "line": 0,
+            "column": 47
+          },
+          "end": {
+            "offset": 48,
+            "line": 0,
+            "column": 48
+          }
+        }
+      },
+      {
+        "kind": "SelfClosingTag",
+        "value": "/>",
+        "range": {
+          "start": {
+            "offset": 49,
+            "line": 0,
+            "column": 49
+          },
+          "end": {
+            "offset": 51,
+            "line": 0,
+            "column": 51
+          }
+        }
+      },
+      {
+        "kind": "OpenTag",
+        "value": "<",
+        "range": {
+          "start": {
+            "offset": 54,
+            "line": 0,
+            "column": 54
+          },
+          "end": {
+            "offset": 55,
+            "line": 0,
+            "column": 55
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "span",
+        "range": {
+          "start": {
+            "offset": 55,
+            "line": 0,
+            "column": 55
+          },
+          "end": {
+            "offset": 59,
+            "line": 0,
+            "column": 59
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 59,
+            "line": 0,
+            "column": 59
+          },
+          "end": {
+            "offset": 60,
+            "line": 0,
+            "column": 60
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 60,
+            "line": 0,
+            "column": 60
+          },
+          "end": {
+            "offset": 61,
+            "line": 0,
+            "column": 61
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "user",
+        "range": {
+          "start": {
+            "offset": 61,
+            "line": 0,
+            "column": 61
+          },
+          "end": {
+            "offset": 65,
+            "line": 0,
+            "column": 65
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "name",
+        "range": {
+          "start": {
+            "offset": 66,
+            "line": 0,
+            "column": 66
+          },
+          "end": {
+            "offset": 70,
+            "line": 0,
+            "column": 70
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 70,
+            "line": 0,
+            "column": 70
+          },
+          "end": {
+            "offset": 71,
+            "line": 0,
+            "column": 71
+          }
+        }
+      },
+      {
+        "kind": "CloseTag",
+        "value": "</",
+        "range": {
+          "start": {
+            "offset": 71,
+            "line": 0,
+            "column": 71
+          },
+          "end": {
+            "offset": 73,
+            "line": 0,
+            "column": 73
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "span",
+        "range": {
+          "start": {
+            "offset": 73,
+            "line": 0,
+            "column": 73
+          },
+          "end": {
+            "offset": 77,
+            "line": 0,
+            "column": 77
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 77,
+            "line": 0,
+            "column": 77
+          },
+          "end": {
+            "offset": 78,
+            "line": 0,
+            "column": 78
+          }
+        }
+      },
+      {
+        "kind": "CloseTag",
+        "value": "</",
+        "range": {
+          "start": {
+            "offset": 80,
+            "line": 0,
+            "column": 80
+          },
+          "end": {
+            "offset": 82,
+            "line": 0,
+            "column": 82
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "div",
+        "range": {
+          "start": {
+            "offset": 82,
+            "line": 0,
+            "column": 82
+          },
+          "end": {
+            "offset": 85,
+            "line": 0,
+            "column": 85
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 85,
+            "line": 0,
+            "column": 85
+          },
+          "end": {
+            "offset": 86,
+            "line": 0,
+            "column": 86
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 87,
+            "line": 0,
+            "column": 87
+          },
+          "end": {
+            "offset": 88,
+            "line": 0,
+            "column": 88
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "tml",
+    "range": {
+      "start": 651,
+      "end": 879
+    },
+    "content": "tml! {\n\t@if(user.role === 'admin') {\n\t\t<div class=\"admin\">\n\t\t\t<h1>Admin Dashboard</h1>\n\t\t\t@for(const item of user.items) {\n\t\t\t\t<Card item={item} />\n\t\t\t}\n\t\t\t@empty {\n\t\t\t\t<p>No items</p>\n\t\t\t}\n\t\t</div>\n\t}\n\t@else {\n\t\t<SignIn />\n\t}\n}",
+    "tokens": [
+      {
+        "kind": "Tml",
+        "value": "tml!",
+        "range": {
+          "start": {
+            "offset": 0,
+            "line": 0,
+            "column": 0
+          },
+          "end": {
+            "offset": 4,
+            "line": 0,
+            "column": 4
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 5,
+            "line": 0,
+            "column": 5
+          },
+          "end": {
+            "offset": 6,
+            "line": 0,
+            "column": 6
+          }
+        }
+      },
+      {
+        "kind": "At",
+        "value": "@",
+        "range": {
+          "start": {
+            "offset": 8,
+            "line": 0,
+            "column": 8
+          },
+          "end": {
+            "offset": 9,
+            "line": 0,
+            "column": 9
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "if",
+        "range": {
+          "start": {
+            "offset": 9,
+            "line": 0,
+            "column": 9
+          },
+          "end": {
+            "offset": 11,
+            "line": 0,
+            "column": 11
+          }
+        }
+      },
+      {
+        "kind": "OpenParen",
+        "value": "(",
+        "range": {
+          "start": {
+            "offset": 11,
+            "line": 0,
+            "column": 11
+          },
+          "end": {
+            "offset": 12,
+            "line": 0,
+            "column": 12
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "user",
+        "range": {
+          "start": {
+            "offset": 12,
+            "line": 0,
+            "column": 12
+          },
+          "end": {
+            "offset": 16,
+            "line": 0,
+            "column": 16
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "role",
+        "range": {
+          "start": {
+            "offset": 17,
+            "line": 0,
+            "column": 17
+          },
+          "end": {
+            "offset": 21,
+            "line": 0,
+            "column": 21
+          }
+        }
+      },
+      {
+        "kind": "Equals",
+        "value": "=",
+        "range": {
+          "start": {
+            "offset": 22,
+            "line": 0,
+            "column": 22
+          },
+          "end": {
+            "offset": 23,
+            "line": 0,
+            "column": 23
+          }
+        }
+      },
+      {
+        "kind": "Equals",
+        "value": "=",
+        "range": {
+          "start": {
+            "offset": 23,
+            "line": 0,
+            "column": 23
+          },
+          "end": {
+            "offset": 24,
+            "line": 0,
+            "column": 24
+          }
+        }
+      },
+      {
+        "kind": "Equals",
+        "value": "=",
+        "range": {
+          "start": {
+            "offset": 24,
+            "line": 0,
+            "column": 24
+          },
+          "end": {
+            "offset": 25,
+            "line": 0,
+            "column": 25
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "admin",
+        "range": {
+          "start": {
+            "offset": 27,
+            "line": 0,
+            "column": 27
+          },
+          "end": {
+            "offset": 32,
+            "line": 0,
+            "column": 32
+          }
+        }
+      },
+      {
+        "kind": "CloseParen",
+        "value": ")",
+        "range": {
+          "start": {
+            "offset": 33,
+            "line": 0,
+            "column": 33
+          },
+          "end": {
+            "offset": 34,
+            "line": 0,
+            "column": 34
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 35,
+            "line": 0,
+            "column": 35
+          },
+          "end": {
+            "offset": 36,
+            "line": 0,
+            "column": 36
+          }
+        }
+      },
+      {
+        "kind": "OpenTag",
+        "value": "<",
+        "range": {
+          "start": {
+            "offset": 39,
+            "line": 0,
+            "column": 39
+          },
+          "end": {
+            "offset": 40,
+            "line": 0,
+            "column": 40
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "div",
+        "range": {
+          "start": {
+            "offset": 40,
+            "line": 0,
+            "column": 40
+          },
+          "end": {
+            "offset": 43,
+            "line": 0,
+            "column": 43
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "class",
+        "range": {
+          "start": {
+            "offset": 44,
+            "line": 0,
+            "column": 44
+          },
+          "end": {
+            "offset": 49,
+            "line": 0,
+            "column": 49
+          }
+        }
+      },
+      {
+        "kind": "Equals",
+        "value": "=",
+        "range": {
+          "start": {
+            "offset": 49,
+            "line": 0,
+            "column": 49
+          },
+          "end": {
+            "offset": 50,
+            "line": 0,
+            "column": 50
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "admin",
+        "range": {
+          "start": {
+            "offset": 51,
+            "line": 0,
+            "column": 51
+          },
+          "end": {
+            "offset": 56,
+            "line": 0,
+            "column": 56
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 57,
+            "line": 0,
+            "column": 57
+          },
+          "end": {
+            "offset": 58,
+            "line": 0,
+            "column": 58
+          }
+        }
+      },
+      {
+        "kind": "OpenTag",
+        "value": "<",
+        "range": {
+          "start": {
+            "offset": 62,
+            "line": 0,
+            "column": 62
+          },
+          "end": {
+            "offset": 63,
+            "line": 0,
+            "column": 63
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "h1",
+        "range": {
+          "start": {
+            "offset": 63,
+            "line": 0,
+            "column": 63
+          },
+          "end": {
+            "offset": 65,
+            "line": 0,
+            "column": 65
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 65,
+            "line": 0,
+            "column": 65
+          },
+          "end": {
+            "offset": 66,
+            "line": 0,
+            "column": 66
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "Admin",
+        "range": {
+          "start": {
+            "offset": 66,
+            "line": 0,
+            "column": 66
+          },
+          "end": {
+            "offset": 71,
+            "line": 0,
+            "column": 71
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "Dashboard",
+        "range": {
+          "start": {
+            "offset": 72,
+            "line": 0,
+            "column": 72
+          },
+          "end": {
+            "offset": 81,
+            "line": 0,
+            "column": 81
+          }
+        }
+      },
+      {
+        "kind": "CloseTag",
+        "value": "</",
+        "range": {
+          "start": {
+            "offset": 81,
+            "line": 0,
+            "column": 81
+          },
+          "end": {
+            "offset": 83,
+            "line": 0,
+            "column": 83
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "h1",
+        "range": {
+          "start": {
+            "offset": 83,
+            "line": 0,
+            "column": 83
+          },
+          "end": {
+            "offset": 85,
+            "line": 0,
+            "column": 85
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 85,
+            "line": 0,
+            "column": 85
+          },
+          "end": {
+            "offset": 86,
+            "line": 0,
+            "column": 86
+          }
+        }
+      },
+      {
+        "kind": "At",
+        "value": "@",
+        "range": {
+          "start": {
+            "offset": 90,
+            "line": 0,
+            "column": 90
+          },
+          "end": {
+            "offset": 91,
+            "line": 0,
+            "column": 91
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "for",
+        "range": {
+          "start": {
+            "offset": 91,
+            "line": 0,
+            "column": 91
+          },
+          "end": {
+            "offset": 94,
+            "line": 0,
+            "column": 94
+          }
+        }
+      },
+      {
+        "kind": "OpenParen",
+        "value": "(",
+        "range": {
+          "start": {
+            "offset": 94,
+            "line": 0,
+            "column": 94
+          },
+          "end": {
+            "offset": 95,
+            "line": 0,
+            "column": 95
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "const",
+        "range": {
+          "start": {
+            "offset": 95,
+            "line": 0,
+            "column": 95
+          },
+          "end": {
+            "offset": 100,
+            "line": 0,
+            "column": 100
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "item",
+        "range": {
+          "start": {
+            "offset": 101,
+            "line": 0,
+            "column": 101
+          },
+          "end": {
+            "offset": 105,
+            "line": 0,
+            "column": 105
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "of",
+        "range": {
+          "start": {
+            "offset": 106,
+            "line": 0,
+            "column": 106
+          },
+          "end": {
+            "offset": 108,
+            "line": 0,
+            "column": 108
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "user",
+        "range": {
+          "start": {
+            "offset": 109,
+            "line": 0,
+            "column": 109
+          },
+          "end": {
+            "offset": 113,
+            "line": 0,
+            "column": 113
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "items",
+        "range": {
+          "start": {
+            "offset": 114,
+            "line": 0,
+            "column": 114
+          },
+          "end": {
+            "offset": 119,
+            "line": 0,
+            "column": 119
+          }
+        }
+      },
+      {
+        "kind": "CloseParen",
+        "value": ")",
+        "range": {
+          "start": {
+            "offset": 119,
+            "line": 0,
+            "column": 119
+          },
+          "end": {
+            "offset": 120,
+            "line": 0,
+            "column": 120
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 121,
+            "line": 0,
+            "column": 121
+          },
+          "end": {
+            "offset": 122,
+            "line": 0,
+            "column": 122
+          }
+        }
+      },
+      {
+        "kind": "OpenTag",
+        "value": "<",
+        "range": {
+          "start": {
+            "offset": 127,
+            "line": 0,
+            "column": 127
+          },
+          "end": {
+            "offset": 128,
+            "line": 0,
+            "column": 128
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "Card",
+        "range": {
+          "start": {
+            "offset": 128,
+            "line": 0,
+            "column": 128
+          },
+          "end": {
+            "offset": 132,
+            "line": 0,
+            "column": 132
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "item",
+        "range": {
+          "start": {
+            "offset": 133,
+            "line": 0,
+            "column": 133
+          },
+          "end": {
+            "offset": 137,
+            "line": 0,
+            "column": 137
+          }
+        }
+      },
+      {
+        "kind": "Equals",
+        "value": "=",
+        "range": {
+          "start": {
+            "offset": 137,
+            "line": 0,
+            "column": 137
+          },
+          "end": {
+            "offset": 138,
+            "line": 0,
+            "column": 138
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 138,
+            "line": 0,
+            "column": 138
+          },
+          "end": {
+            "offset": 139,
+            "line": 0,
+            "column": 139
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "item",
+        "range": {
+          "start": {
+            "offset": 139,
+            "line": 0,
+            "column": 139
+          },
+          "end": {
+            "offset": 143,
+            "line": 0,
+            "column": 143
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 143,
+            "line": 0,
+            "column": 143
+          },
+          "end": {
+            "offset": 144,
+            "line": 0,
+            "column": 144
+          }
+        }
+      },
+      {
+        "kind": "SelfClosingTag",
+        "value": "/>",
+        "range": {
+          "start": {
+            "offset": 145,
+            "line": 0,
+            "column": 145
+          },
+          "end": {
+            "offset": 147,
+            "line": 0,
+            "column": 147
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 151,
+            "line": 0,
+            "column": 151
+          },
+          "end": {
+            "offset": 152,
+            "line": 0,
+            "column": 152
+          }
+        }
+      },
+      {
+        "kind": "At",
+        "value": "@",
+        "range": {
+          "start": {
+            "offset": 156,
+            "line": 0,
+            "column": 156
+          },
+          "end": {
+            "offset": 157,
+            "line": 0,
+            "column": 157
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "empty",
+        "range": {
+          "start": {
+            "offset": 157,
+            "line": 0,
+            "column": 157
+          },
+          "end": {
+            "offset": 162,
+            "line": 0,
+            "column": 162
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 163,
+            "line": 0,
+            "column": 163
+          },
+          "end": {
+            "offset": 164,
+            "line": 0,
+            "column": 164
+          }
+        }
+      },
+      {
+        "kind": "OpenTag",
+        "value": "<",
+        "range": {
+          "start": {
+            "offset": 169,
+            "line": 0,
+            "column": 169
+          },
+          "end": {
+            "offset": 170,
+            "line": 0,
+            "column": 170
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "p",
+        "range": {
+          "start": {
+            "offset": 170,
+            "line": 0,
+            "column": 170
+          },
+          "end": {
+            "offset": 171,
+            "line": 0,
+            "column": 171
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 171,
+            "line": 0,
+            "column": 171
+          },
+          "end": {
+            "offset": 172,
+            "line": 0,
+            "column": 172
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "No",
+        "range": {
+          "start": {
+            "offset": 172,
+            "line": 0,
+            "column": 172
+          },
+          "end": {
+            "offset": 174,
+            "line": 0,
+            "column": 174
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "items",
+        "range": {
+          "start": {
+            "offset": 175,
+            "line": 0,
+            "column": 175
+          },
+          "end": {
+            "offset": 180,
+            "line": 0,
+            "column": 180
+          }
+        }
+      },
+      {
+        "kind": "CloseTag",
+        "value": "</",
+        "range": {
+          "start": {
+            "offset": 180,
+            "line": 0,
+            "column": 180
+          },
+          "end": {
+            "offset": 182,
+            "line": 0,
+            "column": 182
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "p",
+        "range": {
+          "start": {
+            "offset": 182,
+            "line": 0,
+            "column": 182
+          },
+          "end": {
+            "offset": 183,
+            "line": 0,
+            "column": 183
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 183,
+            "line": 0,
+            "column": 183
+          },
+          "end": {
+            "offset": 184,
+            "line": 0,
+            "column": 184
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 188,
+            "line": 0,
+            "column": 188
+          },
+          "end": {
+            "offset": 189,
+            "line": 0,
+            "column": 189
+          }
+        }
+      },
+      {
+        "kind": "CloseTag",
+        "value": "</",
+        "range": {
+          "start": {
+            "offset": 192,
+            "line": 0,
+            "column": 192
+          },
+          "end": {
+            "offset": 194,
+            "line": 0,
+            "column": 194
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "div",
+        "range": {
+          "start": {
+            "offset": 194,
+            "line": 0,
+            "column": 194
+          },
+          "end": {
+            "offset": 197,
+            "line": 0,
+            "column": 197
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 197,
+            "line": 0,
+            "column": 197
+          },
+          "end": {
+            "offset": 198,
+            "line": 0,
+            "column": 198
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 200,
+            "line": 0,
+            "column": 200
+          },
+          "end": {
+            "offset": 201,
+            "line": 0,
+            "column": 201
+          }
+        }
+      },
+      {
+        "kind": "At",
+        "value": "@",
+        "range": {
+          "start": {
+            "offset": 203,
+            "line": 0,
+            "column": 203
+          },
+          "end": {
+            "offset": 204,
+            "line": 0,
+            "column": 204
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "else",
+        "range": {
+          "start": {
+            "offset": 204,
+            "line": 0,
+            "column": 204
+          },
+          "end": {
+            "offset": 208,
+            "line": 0,
+            "column": 208
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 209,
+            "line": 0,
+            "column": 209
+          },
+          "end": {
+            "offset": 210,
+            "line": 0,
+            "column": 210
+          }
+        }
+      },
+      {
+        "kind": "OpenTag",
+        "value": "<",
+        "range": {
+          "start": {
+            "offset": 213,
+            "line": 0,
+            "column": 213
+          },
+          "end": {
+            "offset": 214,
+            "line": 0,
+            "column": 214
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "SignIn",
+        "range": {
+          "start": {
+            "offset": 214,
+            "line": 0,
+            "column": 214
+          },
+          "end": {
+            "offset": 220,
+            "line": 0,
+            "column": 220
+          }
+        }
+      },
+      {
+        "kind": "SelfClosingTag",
+        "value": "/>",
+        "range": {
+          "start": {
+            "offset": 221,
+            "line": 0,
+            "column": 221
+          },
+          "end": {
+            "offset": 223,
+            "line": 0,
+            "column": 223
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 225,
+            "line": 0,
+            "column": 225
+          },
+          "end": {
+            "offset": 226,
+            "line": 0,
+            "column": 226
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 227,
+            "line": 0,
+            "column": 227
+          },
+          "end": {
+            "offset": 228,
+            "line": 0,
+            "column": 228
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "tml",
+    "range": {
+      "start": 898,
+      "end": 1071
+    },
+    "content": "tml! {\n\t<ul>\n\t\t@for(const [index, user] of users.entries()) {\n\t\t\t<li key={index}>\n\t\t\t\t<UserCard user={user} />\n\t\t\t</li>\n\t\t}\n\t\t@empty {\n\t\t\t<p>No users found.</p>\n\t\t}\n\t</ul>\n}",
+    "tokens": [
+      {
+        "kind": "Tml",
+        "value": "tml!",
+        "range": {
+          "start": {
+            "offset": 0,
+            "line": 0,
+            "column": 0
+          },
+          "end": {
+            "offset": 4,
+            "line": 0,
+            "column": 4
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 5,
+            "line": 0,
+            "column": 5
+          },
+          "end": {
+            "offset": 6,
+            "line": 0,
+            "column": 6
+          }
+        }
+      },
+      {
+        "kind": "OpenTag",
+        "value": "<",
+        "range": {
+          "start": {
+            "offset": 8,
+            "line": 0,
+            "column": 8
+          },
+          "end": {
+            "offset": 9,
+            "line": 0,
+            "column": 9
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "ul",
+        "range": {
+          "start": {
+            "offset": 9,
+            "line": 0,
+            "column": 9
+          },
+          "end": {
+            "offset": 11,
+            "line": 0,
+            "column": 11
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 11,
+            "line": 0,
+            "column": 11
+          },
+          "end": {
+            "offset": 12,
+            "line": 0,
+            "column": 12
+          }
+        }
+      },
+      {
+        "kind": "At",
+        "value": "@",
+        "range": {
+          "start": {
+            "offset": 15,
+            "line": 0,
+            "column": 15
+          },
+          "end": {
+            "offset": 16,
+            "line": 0,
+            "column": 16
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "for",
+        "range": {
+          "start": {
+            "offset": 16,
+            "line": 0,
+            "column": 16
+          },
+          "end": {
+            "offset": 19,
+            "line": 0,
+            "column": 19
+          }
+        }
+      },
+      {
+        "kind": "OpenParen",
+        "value": "(",
+        "range": {
+          "start": {
+            "offset": 19,
+            "line": 0,
+            "column": 19
+          },
+          "end": {
+            "offset": 20,
+            "line": 0,
+            "column": 20
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "const",
+        "range": {
+          "start": {
+            "offset": 20,
+            "line": 0,
+            "column": 20
+          },
+          "end": {
+            "offset": 25,
+            "line": 0,
+            "column": 25
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "index",
+        "range": {
+          "start": {
+            "offset": 27,
+            "line": 0,
+            "column": 27
+          },
+          "end": {
+            "offset": 32,
+            "line": 0,
+            "column": 32
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "user",
+        "range": {
+          "start": {
+            "offset": 34,
+            "line": 0,
+            "column": 34
+          },
+          "end": {
+            "offset": 38,
+            "line": 0,
+            "column": 38
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "of",
+        "range": {
+          "start": {
+            "offset": 40,
+            "line": 0,
+            "column": 40
+          },
+          "end": {
+            "offset": 42,
+            "line": 0,
+            "column": 42
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "users",
+        "range": {
+          "start": {
+            "offset": 43,
+            "line": 0,
+            "column": 43
+          },
+          "end": {
+            "offset": 48,
+            "line": 0,
+            "column": 48
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "entries",
+        "range": {
+          "start": {
+            "offset": 49,
+            "line": 0,
+            "column": 49
+          },
+          "end": {
+            "offset": 56,
+            "line": 0,
+            "column": 56
+          }
+        }
+      },
+      {
+        "kind": "OpenParen",
+        "value": "(",
+        "range": {
+          "start": {
+            "offset": 56,
+            "line": 0,
+            "column": 56
+          },
+          "end": {
+            "offset": 57,
+            "line": 0,
+            "column": 57
+          }
+        }
+      },
+      {
+        "kind": "CloseParen",
+        "value": ")",
+        "range": {
+          "start": {
+            "offset": 57,
+            "line": 0,
+            "column": 57
+          },
+          "end": {
+            "offset": 58,
+            "line": 0,
+            "column": 58
+          }
+        }
+      },
+      {
+        "kind": "CloseParen",
+        "value": ")",
+        "range": {
+          "start": {
+            "offset": 58,
+            "line": 0,
+            "column": 58
+          },
+          "end": {
+            "offset": 59,
+            "line": 0,
+            "column": 59
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 60,
+            "line": 0,
+            "column": 60
+          },
+          "end": {
+            "offset": 61,
+            "line": 0,
+            "column": 61
+          }
+        }
+      },
+      {
+        "kind": "OpenTag",
+        "value": "<",
+        "range": {
+          "start": {
+            "offset": 65,
+            "line": 0,
+            "column": 65
+          },
+          "end": {
+            "offset": 66,
+            "line": 0,
+            "column": 66
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "li",
+        "range": {
+          "start": {
+            "offset": 66,
+            "line": 0,
+            "column": 66
+          },
+          "end": {
+            "offset": 68,
+            "line": 0,
+            "column": 68
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "key",
+        "range": {
+          "start": {
+            "offset": 69,
+            "line": 0,
+            "column": 69
+          },
+          "end": {
+            "offset": 72,
+            "line": 0,
+            "column": 72
+          }
+        }
+      },
+      {
+        "kind": "Equals",
+        "value": "=",
+        "range": {
+          "start": {
+            "offset": 72,
+            "line": 0,
+            "column": 72
+          },
+          "end": {
+            "offset": 73,
+            "line": 0,
+            "column": 73
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 73,
+            "line": 0,
+            "column": 73
+          },
+          "end": {
+            "offset": 74,
+            "line": 0,
+            "column": 74
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "index",
+        "range": {
+          "start": {
+            "offset": 74,
+            "line": 0,
+            "column": 74
+          },
+          "end": {
+            "offset": 79,
+            "line": 0,
+            "column": 79
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 79,
+            "line": 0,
+            "column": 79
+          },
+          "end": {
+            "offset": 80,
+            "line": 0,
+            "column": 80
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 80,
+            "line": 0,
+            "column": 80
+          },
+          "end": {
+            "offset": 81,
+            "line": 0,
+            "column": 81
+          }
+        }
+      },
+      {
+        "kind": "OpenTag",
+        "value": "<",
+        "range": {
+          "start": {
+            "offset": 86,
+            "line": 0,
+            "column": 86
+          },
+          "end": {
+            "offset": 87,
+            "line": 0,
+            "column": 87
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "UserCard",
+        "range": {
+          "start": {
+            "offset": 87,
+            "line": 0,
+            "column": 87
+          },
+          "end": {
+            "offset": 95,
+            "line": 0,
+            "column": 95
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "user",
+        "range": {
+          "start": {
+            "offset": 96,
+            "line": 0,
+            "column": 96
+          },
+          "end": {
+            "offset": 100,
+            "line": 0,
+            "column": 100
+          }
+        }
+      },
+      {
+        "kind": "Equals",
+        "value": "=",
+        "range": {
+          "start": {
+            "offset": 100,
+            "line": 0,
+            "column": 100
+          },
+          "end": {
+            "offset": 101,
+            "line": 0,
+            "column": 101
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 101,
+            "line": 0,
+            "column": 101
+          },
+          "end": {
+            "offset": 102,
+            "line": 0,
+            "column": 102
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "user",
+        "range": {
+          "start": {
+            "offset": 102,
+            "line": 0,
+            "column": 102
+          },
+          "end": {
+            "offset": 106,
+            "line": 0,
+            "column": 106
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 106,
+            "line": 0,
+            "column": 106
+          },
+          "end": {
+            "offset": 107,
+            "line": 0,
+            "column": 107
+          }
+        }
+      },
+      {
+        "kind": "SelfClosingTag",
+        "value": "/>",
+        "range": {
+          "start": {
+            "offset": 108,
+            "line": 0,
+            "column": 108
+          },
+          "end": {
+            "offset": 110,
+            "line": 0,
+            "column": 110
+          }
+        }
+      },
+      {
+        "kind": "CloseTag",
+        "value": "</",
+        "range": {
+          "start": {
+            "offset": 114,
+            "line": 0,
+            "column": 114
+          },
+          "end": {
+            "offset": 116,
+            "line": 0,
+            "column": 116
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "li",
+        "range": {
+          "start": {
+            "offset": 116,
+            "line": 0,
+            "column": 116
+          },
+          "end": {
+            "offset": 118,
+            "line": 0,
+            "column": 118
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 118,
+            "line": 0,
+            "column": 118
+          },
+          "end": {
+            "offset": 119,
+            "line": 0,
+            "column": 119
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 122,
+            "line": 0,
+            "column": 122
+          },
+          "end": {
+            "offset": 123,
+            "line": 0,
+            "column": 123
+          }
+        }
+      },
+      {
+        "kind": "At",
+        "value": "@",
+        "range": {
+          "start": {
+            "offset": 126,
+            "line": 0,
+            "column": 126
+          },
+          "end": {
+            "offset": 127,
+            "line": 0,
+            "column": 127
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "empty",
+        "range": {
+          "start": {
+            "offset": 127,
+            "line": 0,
+            "column": 127
+          },
+          "end": {
+            "offset": 132,
+            "line": 0,
+            "column": 132
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 133,
+            "line": 0,
+            "column": 133
+          },
+          "end": {
+            "offset": 134,
+            "line": 0,
+            "column": 134
+          }
+        }
+      },
+      {
+        "kind": "OpenTag",
+        "value": "<",
+        "range": {
+          "start": {
+            "offset": 138,
+            "line": 0,
+            "column": 138
+          },
+          "end": {
+            "offset": 139,
+            "line": 0,
+            "column": 139
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "p",
+        "range": {
+          "start": {
+            "offset": 139,
+            "line": 0,
+            "column": 139
+          },
+          "end": {
+            "offset": 140,
+            "line": 0,
+            "column": 140
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 140,
+            "line": 0,
+            "column": 140
+          },
+          "end": {
+            "offset": 141,
+            "line": 0,
+            "column": 141
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "No",
+        "range": {
+          "start": {
+            "offset": 141,
+            "line": 0,
+            "column": 141
+          },
+          "end": {
+            "offset": 143,
+            "line": 0,
+            "column": 143
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "users",
+        "range": {
+          "start": {
+            "offset": 144,
+            "line": 0,
+            "column": 144
+          },
+          "end": {
+            "offset": 149,
+            "line": 0,
+            "column": 149
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "found",
+        "range": {
+          "start": {
+            "offset": 150,
+            "line": 0,
+            "column": 150
+          },
+          "end": {
+            "offset": 155,
+            "line": 0,
+            "column": 155
+          }
+        }
+      },
+      {
+        "kind": "CloseTag",
+        "value": "</",
+        "range": {
+          "start": {
+            "offset": 156,
+            "line": 0,
+            "column": 156
+          },
+          "end": {
+            "offset": 158,
+            "line": 0,
+            "column": 158
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "p",
+        "range": {
+          "start": {
+            "offset": 158,
+            "line": 0,
+            "column": 158
+          },
+          "end": {
+            "offset": 159,
+            "line": 0,
+            "column": 159
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 159,
+            "line": 0,
+            "column": 159
+          },
+          "end": {
+            "offset": 160,
+            "line": 0,
+            "column": 160
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 163,
+            "line": 0,
+            "column": 163
+          },
+          "end": {
+            "offset": 164,
+            "line": 0,
+            "column": 164
+          }
+        }
+      },
+      {
+        "kind": "CloseTag",
+        "value": "</",
+        "range": {
+          "start": {
+            "offset": 166,
+            "line": 0,
+            "column": 166
+          },
+          "end": {
+            "offset": 168,
+            "line": 0,
+            "column": 168
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "ul",
+        "range": {
+          "start": {
+            "offset": 168,
+            "line": 0,
+            "column": 168
+          },
+          "end": {
+            "offset": 170,
+            "line": 0,
+            "column": 170
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 170,
+            "line": 0,
+            "column": 170
+          },
+          "end": {
+            "offset": 171,
+            "line": 0,
+            "column": 171
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 172,
+            "line": 0,
+            "column": 172
+          },
+          "end": {
+            "offset": 173,
+            "line": 0,
+            "column": 173
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "tml",
+    "range": {
+      "start": 1103,
+      "end": 1167
+    },
+    "content": "tml! {\n\t\t<button .tooltip={label} .ripple={}>{label}</button>\n\t}",
+    "tokens": [
+      {
+        "kind": "Tml",
+        "value": "tml!",
+        "range": {
+          "start": {
+            "offset": 0,
+            "line": 0,
+            "column": 0
+          },
+          "end": {
+            "offset": 4,
+            "line": 0,
+            "column": 4
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 5,
+            "line": 0,
+            "column": 5
+          },
+          "end": {
+            "offset": 6,
+            "line": 0,
+            "column": 6
+          }
+        }
+      },
+      {
+        "kind": "OpenTag",
+        "value": "<",
+        "range": {
+          "start": {
+            "offset": 9,
+            "line": 0,
+            "column": 9
+          },
+          "end": {
+            "offset": 10,
+            "line": 0,
+            "column": 10
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "button",
+        "range": {
+          "start": {
+            "offset": 10,
+            "line": 0,
+            "column": 10
+          },
+          "end": {
+            "offset": 16,
+            "line": 0,
+            "column": 16
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "tooltip",
+        "range": {
+          "start": {
+            "offset": 18,
+            "line": 0,
+            "column": 18
+          },
+          "end": {
+            "offset": 25,
+            "line": 0,
+            "column": 25
+          }
+        }
+      },
+      {
+        "kind": "Equals",
+        "value": "=",
+        "range": {
+          "start": {
+            "offset": 25,
+            "line": 0,
+            "column": 25
+          },
+          "end": {
+            "offset": 26,
+            "line": 0,
+            "column": 26
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 26,
+            "line": 0,
+            "column": 26
+          },
+          "end": {
+            "offset": 27,
+            "line": 0,
+            "column": 27
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "label",
+        "range": {
+          "start": {
+            "offset": 27,
+            "line": 0,
+            "column": 27
+          },
+          "end": {
+            "offset": 32,
+            "line": 0,
+            "column": 32
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 32,
+            "line": 0,
+            "column": 32
+          },
+          "end": {
+            "offset": 33,
+            "line": 0,
+            "column": 33
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "ripple",
+        "range": {
+          "start": {
+            "offset": 35,
+            "line": 0,
+            "column": 35
+          },
+          "end": {
+            "offset": 41,
+            "line": 0,
+            "column": 41
+          }
+        }
+      },
+      {
+        "kind": "Equals",
+        "value": "=",
+        "range": {
+          "start": {
+            "offset": 41,
+            "line": 0,
+            "column": 41
+          },
+          "end": {
+            "offset": 42,
+            "line": 0,
+            "column": 42
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 42,
+            "line": 0,
+            "column": 42
+          },
+          "end": {
+            "offset": 43,
+            "line": 0,
+            "column": 43
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 43,
+            "line": 0,
+            "column": 43
+          },
+          "end": {
+            "offset": 44,
+            "line": 0,
+            "column": 44
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 44,
+            "line": 0,
+            "column": 44
+          },
+          "end": {
+            "offset": 45,
+            "line": 0,
+            "column": 45
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 45,
+            "line": 0,
+            "column": 45
+          },
+          "end": {
+            "offset": 46,
+            "line": 0,
+            "column": 46
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "label",
+        "range": {
+          "start": {
+            "offset": 46,
+            "line": 0,
+            "column": 46
+          },
+          "end": {
+            "offset": 51,
+            "line": 0,
+            "column": 51
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 51,
+            "line": 0,
+            "column": 51
+          },
+          "end": {
+            "offset": 52,
+            "line": 0,
+            "column": 52
+          }
+        }
+      },
+      {
+        "kind": "CloseTag",
+        "value": "</",
+        "range": {
+          "start": {
+            "offset": 52,
+            "line": 0,
+            "column": 52
+          },
+          "end": {
+            "offset": 54,
+            "line": 0,
+            "column": 54
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "button",
+        "range": {
+          "start": {
+            "offset": 54,
+            "line": 0,
+            "column": 54
+          },
+          "end": {
+            "offset": 60,
+            "line": 0,
+            "column": 60
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 60,
+            "line": 0,
+            "column": 60
+          },
+          "end": {
+            "offset": 61,
+            "line": 0,
+            "column": 61
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 63,
+            "line": 0,
+            "column": 63
+          },
+          "end": {
+            "offset": 64,
+            "line": 0,
+            "column": 64
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "tml",
+    "range": {
+      "start": 1203,
+      "end": 1255
+    },
+    "content": "tml! {\n\t\t<header>\n\t\t\t<h1>{title}</h1>\n\t\t</header>\n\t}",
+    "tokens": [
+      {
+        "kind": "Tml",
+        "value": "tml!",
+        "range": {
+          "start": {
+            "offset": 0,
+            "line": 0,
+            "column": 0
+          },
+          "end": {
+            "offset": 4,
+            "line": 0,
+            "column": 4
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 5,
+            "line": 0,
+            "column": 5
+          },
+          "end": {
+            "offset": 6,
+            "line": 0,
+            "column": 6
+          }
+        }
+      },
+      {
+        "kind": "OpenTag",
+        "value": "<",
+        "range": {
+          "start": {
+            "offset": 9,
+            "line": 0,
+            "column": 9
+          },
+          "end": {
+            "offset": 10,
+            "line": 0,
+            "column": 10
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "header",
+        "range": {
+          "start": {
+            "offset": 10,
+            "line": 0,
+            "column": 10
+          },
+          "end": {
+            "offset": 16,
+            "line": 0,
+            "column": 16
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 16,
+            "line": 0,
+            "column": 16
+          },
+          "end": {
+            "offset": 17,
+            "line": 0,
+            "column": 17
+          }
+        }
+      },
+      {
+        "kind": "OpenTag",
+        "value": "<",
+        "range": {
+          "start": {
+            "offset": 21,
+            "line": 0,
+            "column": 21
+          },
+          "end": {
+            "offset": 22,
+            "line": 0,
+            "column": 22
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "h1",
+        "range": {
+          "start": {
+            "offset": 22,
+            "line": 0,
+            "column": 22
+          },
+          "end": {
+            "offset": 24,
+            "line": 0,
+            "column": 24
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 24,
+            "line": 0,
+            "column": 24
+          },
+          "end": {
+            "offset": 25,
+            "line": 0,
+            "column": 25
+          }
+        }
+      },
+      {
+        "kind": "OpenBrace",
+        "value": "{",
+        "range": {
+          "start": {
+            "offset": 25,
+            "line": 0,
+            "column": 25
+          },
+          "end": {
+            "offset": 26,
+            "line": 0,
+            "column": 26
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "title",
+        "range": {
+          "start": {
+            "offset": 26,
+            "line": 0,
+            "column": 26
+          },
+          "end": {
+            "offset": 31,
+            "line": 0,
+            "column": 31
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 31,
+            "line": 0,
+            "column": 31
+          },
+          "end": {
+            "offset": 32,
+            "line": 0,
+            "column": 32
+          }
+        }
+      },
+      {
+        "kind": "CloseTag",
+        "value": "</",
+        "range": {
+          "start": {
+            "offset": 32,
+            "line": 0,
+            "column": 32
+          },
+          "end": {
+            "offset": 34,
+            "line": 0,
+            "column": 34
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "h1",
+        "range": {
+          "start": {
+            "offset": 34,
+            "line": 0,
+            "column": 34
+          },
+          "end": {
+            "offset": 36,
+            "line": 0,
+            "column": 36
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 36,
+            "line": 0,
+            "column": 36
+          },
+          "end": {
+            "offset": 37,
+            "line": 0,
+            "column": 37
+          }
+        }
+      },
+      {
+        "kind": "CloseTag",
+        "value": "</",
+        "range": {
+          "start": {
+            "offset": 40,
+            "line": 0,
+            "column": 40
+          },
+          "end": {
+            "offset": 42,
+            "line": 0,
+            "column": 42
+          }
+        }
+      },
+      {
+        "kind": "Identifier",
+        "value": "header",
+        "range": {
+          "start": {
+            "offset": 42,
+            "line": 0,
+            "column": 42
+          },
+          "end": {
+            "offset": 48,
+            "line": 0,
+            "column": 48
+          }
+        }
+      },
+      {
+        "kind": "TagEnd",
+        "value": ">",
+        "range": {
+          "start": {
+            "offset": 48,
+            "line": 0,
+            "column": 48
+          },
+          "end": {
+            "offset": 49,
+            "line": 0,
+            "column": 49
+          }
+        }
+      },
+      {
+        "kind": "CloseBrace",
+        "value": "}",
+        "range": {
+          "start": {
+            "offset": 51,
+            "line": 0,
+            "column": 51
+          },
+          "end": {
+            "offset": 52,
+            "line": 0,
+            "column": 52
+          }
+        }
+      }
+    ]
+  }
+]

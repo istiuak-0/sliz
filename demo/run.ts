@@ -1,5 +1,7 @@
 import { readFileSync, writeFileSync } from 'fs'
 import { ExtractMacroBlocks } from '../src/extract/extract'
+import { Tokenize } from '../src/lexer/tokenize'
+import { TokenKind } from '../src/lexer/types'
 
 const inputPath = process.argv[2]
 const outputPath = process.argv[3] || 'demo/output.json'
@@ -12,41 +14,33 @@ if (!inputPath) {
 const source = readFileSync(inputPath, 'utf-8')
 const chunks = ExtractMacroBlocks(source)
 
-const result = {
-	source: inputPath,
-	totalChunks: chunks.length,
-	chunks: chunks.map((c) => ({
-		type: c.type,
-		start: c.start,
-		end: c.end,
-		length: c.end - c.start,
-		content: c.content,
-	})),
-	reconstructed: reconstruct(source, chunks),
-}
+const result = chunks.map((chunk) => {
+	const tokens = Tokenize(chunk)
+	const realTokens = tokens.filter((t) => t.kind !== TokenKind.EOF)
+
+	return {
+		type: chunk.type,
+		range: { start: chunk.start, end: chunk.end },
+		content: chunk.content,
+		tokens: realTokens.map((t) => ({
+			kind: TokenKind[t.kind],
+			value: t.value,
+			range: t.range,
+		})),
+	}
+})
 
 writeFileSync(outputPath, JSON.stringify(result, null, 2))
 
-console.log(`Extracted ${chunks.length} blocks from ${inputPath}`)
-console.log(`Output written to ${outputPath}`)
+console.log(`Extracted ${chunks.length} macro blocks from ${inputPath}`)
 console.log()
 
-for (const chunk of chunks) {
-	console.log(`[${chunk.type}] ${chunk.start}..${chunk.end} (${chunk.end - chunk.start} chars)`)
-	console.log(chunk.content.slice(0, 80) + (chunk.content.length > 80 ? '...' : ''))
-	console.log()
-}
-
-function reconstruct(src: string, blocks: typeof chunks) {
-	let result = ''
-	let cursor = 0
-
-	for (const block of blocks) {
-		result += src.slice(cursor, block.start)
-		result += `/* [JML_${block.type.toUpperCase()}: replaced] */`
-		cursor = block.end
+for (const block of result) {
+	console.log(`[${block.type}] ${block.range.start}..${block.range.end}`)
+	console.log(`  ${block.tokens.length} tokens`)
+	for (const tok of block.tokens) {
+		const val = tok.value === null ? '' : ` ${tok.value}`
+		console.log(`    ${tok.kind.padEnd(15)} ${tok.range.start.offset}..${tok.range.end.offset}${val}`)
 	}
-
-	result += src.slice(cursor)
-	return result
+	console.log()
 }

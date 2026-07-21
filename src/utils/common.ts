@@ -50,7 +50,7 @@ export function SkipLineComment(source: string, start: number) {
 
 /**
  * Skips a block comment (`/* ... * /`). Block comments do NOT nest in JS
- * the first `*/` encountered closes the comment, even if there's a `/*` inside.
+ * the first `*/ ;` encountered closes the comment, even if there's a ` /*` inside.
  * If the comment is never closed, we return the end of the source.
  */
 export function SkipBlockComment(source: string, start: number) {
@@ -159,7 +159,6 @@ export function SkipRegex(source: string, start: number) {
 
 	return position
 }
-
 
 // ===>> Balanced delimiters, e.g. (...) or {...}
 

@@ -1,16 +1,7 @@
 import { CharCodes } from '../utils/ascii.code'
 import { IsIdentifierStart, IsQuote } from '../utils/checks'
-import {
-	IsRegexStart,
-	SkipBalanced,
-	SkipBlockComment,
-	SkipIdentifier,
-	SkipLineComment,
-	SkipRegex,
-	SkipString,
-	SkipWhiteSpace,
-} from '../utils/common'
-import { Macros, type MacroChunks, type MacroChunkType } from './util'
+import { IsRegexStart, SkipBalanced, SkipBlockComment, SkipIdentifier, SkipLineComment, SkipRegex, SkipString, SkipWhiteSpace } from '../utils/common'
+import { Macros, type MacroChunk, type MacroChunkType } from './util'
 
 /**
  * Extracts all `tml!` and `jml!` macro blocks from a JavaScript/TypeScript source string.
@@ -31,7 +22,7 @@ import { Macros, type MacroChunks, type MacroChunkType } from './util'
  * surgical replacement of just the macro blocks while leaving host JS untouched.
  */
 export function ExtractMacroBlocks(source: string) {
-	const chunks: MacroChunks[] = []
+	const chunks: MacroChunk[] = []
 	let position = 0
 
 	while (position < source.length) {
@@ -100,7 +91,7 @@ export function ExtractMacroBlocks(source: string) {
  * strings, comments, and regex inside the body, giving us the position just after
  * the closing `}`.
  */
-function TryExtractMacroBlock(source: string, macroStart: number, afterKeyword: number, type: MacroChunkType): MacroChunks | null {
+function TryExtractMacroBlock(source: string, macroStart: number, afterKeyword: number, type: MacroChunkType): MacroChunk | null {
 	const position = SkipWhiteSpace(source, afterKeyword)
 
 	// No `{` after the keyword, not a valid macro block.
