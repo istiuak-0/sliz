@@ -1,20 +1,14 @@
 import { describe, it, expect } from 'vitest'
-import { ExtractJmlBlocks } from '../src/extract/extract'
+import { extractJmlBlocks } from '../src/extract/extract'
 import type { JmlChunk } from '../src/extract/util'
 
 function scan(source: string): JmlChunk[] {
-	return ExtractJmlBlocks(source)
+	return extractJmlBlocks(source)
 }
 
 function scanContent(source: string): string[] {
 	return scan(source).map((c) => c.content)
 }
-
-function scanTypes(source: string): string[] {
-	return scan(source).map((c) => c.type)
-}
-
-// ─── Basic Extraction ────────────────────────────────────────────────────────
 
 describe('Basic tag extraction', () => {
 	it('extracts a simple tag block', () => {
@@ -65,8 +59,6 @@ describe('Basic tag extraction', () => {
 	})
 })
 
-// ─── Basic Trait Extraction ──────────────────────────────────────────────────
-
 describe('Basic trait extraction', () => {
 	it('extracts a simple trait block', () => {
 		const src = `trait tooltip(ctx: TraitContext<HTMLElement, string>) {
@@ -106,8 +98,6 @@ describe('Basic trait extraction', () => {
 	})
 })
 
-// ─── Mixed Tag + Trait ──────────────────────────────────────────────────────
-
 describe('Mixed tag and trait blocks', () => {
 	it('extracts both tags and traits with correct types', () => {
 		const src = `
@@ -126,8 +116,6 @@ tag Button(label) { <button>{label}</button> }`
 		expect(chunks[2].content).toContain('tag Button')
 	})
 })
-
-// ─── Multiple Tags ───────────────────────────────────────────────────────────
 
 describe('Multiple tags in one source', () => {
 	it('extracts two tags separated by JS code', () => {
@@ -161,8 +149,6 @@ tag B(y) { <span /> }`
 		expect(result).toHaveLength(2)
 	})
 })
-
-// ─── Strings ─────────────────────────────────────────────────────────────────
 
 describe('Strings containing "tag" keyword', () => {
 	it('ignores "tag" inside double-quoted string', () => {
@@ -205,8 +191,6 @@ tag Real(y) { <div /> }`
 	})
 })
 
-// ─── Comments ────────────────────────────────────────────────────────────────
-
 describe('Comments containing "tag" keyword', () => {
 	it('ignores "tag" in line comment', () => {
 		const src = `// tag Foo(x) { <div /> }`
@@ -240,8 +224,6 @@ tag Real(y) { <div /> }`
 		expect(result).toHaveLength(0)
 	})
 })
-
-// ─── Comments & Regex Inside Tag Body ────────────────────────────────────────
 
 describe('Comments and regex inside tag body (brace counting)', () => {
 	it('handles line comment with } inside tag body', () => {
@@ -362,8 +344,6 @@ describe('Comments and regex inside tag body (brace counting)', () => {
 	})
 })
 
-// ─── Comments & Regex Inside Trait Body ─────────────────────────────────────
-
 describe('Comments and regex inside trait body', () => {
 	it('handles line comment with } in trait body', () => {
 		const src = `trait tooltip(ctx) {
@@ -385,8 +365,6 @@ describe('Comments and regex inside trait body', () => {
 		expect(result[0]).toBe(src)
 	})
 })
-
-// ─── Template Literals Inside Tag Body ───────────────────────────────────────
 
 describe('Template literals inside tag body', () => {
 	it('handles template literal without expressions', () => {
@@ -419,8 +397,6 @@ describe('Template literals inside tag body', () => {
 		expect(result[0]).toBe(src)
 	})
 })
-
-// ─── Parameter Edge Cases ────────────────────────────────────────────────────
 
 describe('Parameter edge cases', () => {
 	it('handles nested parens in parameters', () => {
@@ -478,8 +454,6 @@ describe('Parameter edge cases', () => {
 	})
 })
 
-// ─── Whitespace Variations ───────────────────────────────────────────────────
-
 describe('Whitespace variations', () => {
 	it('handles tab indentation', () => {
 		const src = `tag\tFoo(x)\t{\n\t<div />\n}`
@@ -515,8 +489,6 @@ Foo(x) { <div /> }`
 		expect(result).toHaveLength(1)
 	})
 })
-
-// ─── Non-Tag / Non-Trait Identifiers ────────────────────────────────────────
 
 describe('Non-JML identifiers should not trigger extraction', () => {
 	it('ignores identifier "tags" (plural)', () => {
@@ -574,8 +546,6 @@ describe('Non-JML identifiers should not trigger extraction', () => {
 	})
 })
 
-// ─── Tag/Trait Without Parameters ────────────────────────────────────────────
-
 describe('Block without parameters', () => {
 	it('rejects tag without params (no paren)', () => {
 		const src = `tag Foo { <div /> }`
@@ -595,8 +565,6 @@ describe('Block without parameters', () => {
 		expect(result).toHaveLength(0)
 	})
 })
-
-// ─── Unclosed Blocks ─────────────────────────────────────────────────────────
 
 describe('Unclosed blocks', () => {
 	it('rejects tag with unclosed body brace', () => {
@@ -623,8 +591,6 @@ describe('Unclosed blocks', () => {
 		expect(result).toHaveLength(0)
 	})
 })
-
-// ─── Real-World JS Code Surrounding Tags ─────────────────────────────────────
 
 describe('Tags embedded in real-world JS code', () => {
 	it('extracts tag from a module with imports and exports', () => {
@@ -718,8 +684,6 @@ tag ConfigView(cfg: typeof config) {
 		expect(result).toHaveLength(1)
 	})
 })
-
-// ─── JML-Specific Syntax Inside Body ─────────────────────────────────────────
 
 describe('JML control flow inside tag body', () => {
 	it('handles @if/@else inside body', () => {
@@ -821,8 +785,6 @@ describe('JML control flow inside tag body', () => {
 	})
 })
 
-// ─── Edge Cases: Boundary Conditions ─────────────────────────────────────────
-
 describe('Boundary conditions', () => {
 	it('handles empty source', () => {
 		const result = scanContent('')
@@ -875,8 +837,6 @@ describe('Boundary conditions', () => {
 		expect(result).toHaveLength(1)
 	})
 })
-
-// ─── Extreme Push Tests ──────────────────────────────────────────────────────
 
 describe('Extreme edge cases', () => {
 	it('handles multiple string types interleaved with tags', () => {
@@ -1065,8 +1025,6 @@ tag Last(x) { <div /> }`
 	})
 
 	it('handles nested /* inside block comment (JS does not nest)', () => {
-		// JS block comments don't nest: /* outer /* inner */ closes at first */
-		// So ` still comment } */` is live code — the } closes the body.
 		const src = `tag Foo(x) {
   /* outer /* inner */ still comment }
   <div />

@@ -28,7 +28,7 @@ export function skipOpaqueToken(source: string, position: number) {
 		}
 
 		if (next === CharCodes.Asterisk) {
-			return skipBlockComments(source, position)
+			return skipBlockComment(source, position)
 		}
 
 		if (isRegexStart(source, position)) {
@@ -66,7 +66,7 @@ function skipLineComment(source: string, start: number) {
 	return position
 }
 
-function skipBlockComments(source: string, start: number) {
+function skipBlockComment(source: string, start: number) {
 	let position = start + 2
 	while (position < source.length) {
 		if (source.charCodeAt(position) === CharCodes.Asterisk && source.charCodeAt(position + 1) === CharCodes.Slash) {
@@ -80,12 +80,10 @@ function skipBlockComments(source: string, start: number) {
 }
 
 /**
- * Heuristic Approach::
- *
- * a `/` starts a regex literal if the previous meaningful character is one of `= ( [ { ; , ! & | ? ^ + - % *  :`
- * or if  its the very start of the source. `<` and  `>` are intentionally skipped.
- * so </tag> (a Jsx Closing tag) is never mistaken for division-then-regex
- *
+ * Heuristic: a `/` starts a regex literal if the previous meaningful character
+ * is one of `= ( [ { ; , ! & | ? ^ + - % * :` or if it's the start of the
+ * source. `<` and `>` are intentionally excluded so `</tag>` (JSX closing tag)
+ * is never mistaken for division-then-regex.
  */
 function isRegexStart(source: string, position: number) {
 	let localPosition = position - 1

@@ -1,0 +1,87 @@
+import { User, Item } from './types'
+
+const API_URL = 'https://api.example.com'
+
+function fetchUsers(): User[] {
+	return []
+}
+
+export tag Avatar(user: User) {
+	<div class="avatar">
+		<img src={user.avatar} alt={user.name} />
+	</div>
+	<script>
+	
+	let data = 10;
+	const demo ={}
+	</script>
+}
+
+tag UserCard(user: User) {
+	<div class="card">
+		<Avatar user={user} />
+		<span>{user.name}</span>
+	</div>
+}
+
+trait tooltip(ctx: TraitContext<HTMLElement, string>) {
+	ctx.el.title = ctx.value
+}
+
+trait model(ctx: TraitContext<HTMLInputElement, string>) {
+	ctx.el.value = ctx.value
+
+	ctx.el.addEventListener('input', () => {
+		ctx.set(ctx.el.value)
+	})
+}
+
+tag AdminPanel(user: User) {
+	@if(user.role === 'admin') {
+		<div class="admin">
+			<h1>Admin Dashboard</h1>
+			@for(const item of user.items) {
+				<Card item={item} />
+			}
+			@empty {
+				<p>No items</p>
+			}
+		</div>
+	}
+	@else {
+		<SignIn />
+	}
+}
+
+tag UserList(users: User[]) {
+	<ul>
+		@for(const [index, user] of users.entries()) {
+			<li key={index}>
+				<UserCard user={user} />
+			</li>
+		}
+		@empty {
+			<p>No users found.</p>
+		}
+	</ul>
+}
+
+trait ripple(ctx: TraitContext<HTMLButtonElement, void>) {
+	const re = /^ripple-/
+
+	ctx.el.addEventListener('click', () => {
+		// ripple effect
+		const pattern = /animate/
+	})
+}
+
+tag Button(label: string) {
+	<button .tooltip={label} .ripple={}>{label}</button>
+}
+
+const config = {
+	endpoint: API_URL,
+	timeout: 5000,
+}
+
+export { Avatar, UserCard, AdminPanel, UserList, Button }

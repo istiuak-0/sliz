@@ -3,6 +3,8 @@ export type JmlBlockType = 'tag' | 'trait'
 export interface JmlChunk {
 	type: JmlBlockType
 	content: string
+	start: number
+	end: number
 }
 
 const jmlKeywords: readonly string[] = ['tag', 'trait']
