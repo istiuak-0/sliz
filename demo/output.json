@@ -1,63 +1,49 @@
 {
   "source": "demo/sample.jml",
-  "totalChunks": 8,
+  "totalChunks": 6,
   "chunks": [
     {
-      "type": "tag",
-      "start": 134,
-      "end": 289,
-      "length": 155,
-      "content": "tag Avatar(user: User) {\n\t<div class=\"avatar\">\n\t\t<img src={user.avatar} alt={user.name} />\n\t</div>\n\t<script>\n\t\n\tlet data = 10;\n\tconst demo ={}\n\t</script>\n}"
+      "type": "tml",
+      "start": 398,
+      "end": 480,
+      "length": 82,
+      "content": "tml! {\n\t<div class=\"avatar\">\n\t\t<img src={user.avatar} alt={user.name} />\n\t</div>\n}"
     },
     {
-      "type": "tag",
-      "start": 291,
-      "end": 399,
-      "length": 108,
-      "content": "tag UserCard(user: User) {\n\t<div class=\"card\">\n\t\t<Avatar user={user} />\n\t\t<span>{user.name}</span>\n\t</div>\n}"
+      "type": "tml",
+      "start": 499,
+      "end": 587,
+      "length": 88,
+      "content": "tml! {\n\t<div class=\"card\">\n\t\t<Avatar user={user} />\n\t\t<span>{user.name}</span>\n\t</div>\n}"
     },
     {
-      "type": "trait",
-      "start": 401,
-      "end": 484,
-      "length": 83,
-      "content": "trait tooltip(ctx: TraitContext<HTMLElement, string>) {\n\tctx.el.title = ctx.value\n}"
+      "type": "tml",
+      "start": 608,
+      "end": 836,
+      "length": 228,
+      "content": "tml! {\n\t@if(user.role === 'admin') {\n\t\t<div class=\"admin\">\n\t\t\t<h1>Admin Dashboard</h1>\n\t\t\t@for(const item of user.items) {\n\t\t\t\t<Card item={item} />\n\t\t\t}\n\t\t\t@empty {\n\t\t\t\t<p>No items</p>\n\t\t\t}\n\t\t</div>\n\t}\n\t@else {\n\t\t<SignIn />\n\t}\n}"
     },
     {
-      "type": "trait",
-      "start": 486,
-      "end": 643,
-      "length": 157,
-      "content": "trait model(ctx: TraitContext<HTMLInputElement, string>) {\n\tctx.el.value = ctx.value\n\n\tctx.el.addEventListener('input', () => {\n\t\tctx.set(ctx.el.value)\n\t})\n}"
+      "type": "tml",
+      "start": 855,
+      "end": 1028,
+      "length": 173,
+      "content": "tml! {\n\t<ul>\n\t\t@for(const [index, user] of users.entries()) {\n\t\t\t<li key={index}>\n\t\t\t\t<UserCard user={user} />\n\t\t\t</li>\n\t\t}\n\t\t@empty {\n\t\t\t<p>No users found.</p>\n\t\t}\n\t</ul>\n}"
     },
     {
-      "type": "tag",
-      "start": 645,
-      "end": 895,
-      "length": 250,
-      "content": "tag AdminPanel(user: User) {\n\t@if(user.role === 'admin') {\n\t\t<div class=\"admin\">\n\t\t\t<h1>Admin Dashboard</h1>\n\t\t\t@for(const item of user.items) {\n\t\t\t\t<Card item={item} />\n\t\t\t}\n\t\t\t@empty {\n\t\t\t\t<p>No items</p>\n\t\t\t}\n\t\t</div>\n\t}\n\t@else {\n\t\t<SignIn />\n\t}\n}"
+      "type": "tml",
+      "start": 1060,
+      "end": 1124,
+      "length": 64,
+      "content": "tml! {\n\t\t<button .tooltip={label} .ripple={}>{label}</button>\n\t}"
     },
     {
-      "type": "tag",
-      "start": 897,
-      "end": 1093,
-      "length": 196,
-      "content": "tag UserList(users: User[]) {\n\t<ul>\n\t\t@for(const [index, user] of users.entries()) {\n\t\t\t<li key={index}>\n\t\t\t\t<UserCard user={user} />\n\t\t\t</li>\n\t\t}\n\t\t@empty {\n\t\t\t<p>No users found.</p>\n\t\t}\n\t</ul>\n}"
-    },
-    {
-      "type": "trait",
-      "start": 1095,
-      "end": 1272,
-      "length": 177,
-      "content": "trait ripple(ctx: TraitContext<HTMLButtonElement, void>) {\n\tconst re = /^ripple-/\n\n\tctx.el.addEventListener('click', () => {\n\t\t// ripple effect\n\t\tconst pattern = /animate/\n\t})\n}"
-    },
-    {
-      "type": "tag",
-      "start": 1274,
-      "end": 1357,
-      "length": 83,
-      "content": "tag Button(label: string) {\n\t<button .tooltip={label} .ripple={}>{label}</button>\n}"
+      "type": "tml",
+      "start": 1160,
+      "end": 1212,
+      "length": 52,
+      "content": "tml! {\n\t\t<header>\n\t\t\t<h1>{title}</h1>\n\t\t</header>\n\t}"
     }
   ],
-  "reconstructed": "import { User, Item } from './types'\n\nconst API_URL = 'https://api.example.com'\n\nfunction fetchUsers(): User[] {\n\treturn []\n}\n\nexport /* [JML_TAG: replaced] */\n\n/* [JML_TAG: replaced] */\n\n/* [JML_TRAIT: replaced] */\n\n/* [JML_TRAIT: replaced] */\n\n/* [JML_TAG: replaced] */\n\n/* [JML_TAG: replaced] */\n\n/* [JML_TRAIT: replaced] */\n\n/* [JML_TAG: replaced] */\n\nconst config = {\n\tendpoint: API_URL,\n\ttimeout: 5000,\n}\n\nexport { Avatar, UserCard, AdminPanel, UserList, Button }\n"
+  "reconstructed": "import { User, Item } from './types'\n\nconst API_URL = 'https://api.example.com'\n\nfunction fetchUsers(): User[] {\n\treturn []\n}\n\nconst tooltip = (ctx: TraitContext<HTMLElement, string>) => {\n\tctx.el.title = ctx.value\n}\n\nconst model = (ctx: TraitContext<HTMLInputElement, string>) => {\n\tctx.el.value = ctx.value\n\n\tctx.el.addEventListener('input', () => {\n\t\tctx.set(ctx.el.value)\n\t})\n}\n\nconst Avatar = /* [JML_TML: replaced] */\n\nconst UserCard = /* [JML_TML: replaced] */\n\nconst AdminPanel = /* [JML_TML: replaced] */\n\nconst UserList = /* [JML_TML: replaced] */\n\nconst components = {\n\tButton: /* [JML_TML: replaced] */,\n}\n\nclass App {\n\treadonly Header = /* [JML_TML: replaced] */\n}\n\nconst config = {\n\tendpoint: API_URL,\n\ttimeout: 5000,\n}\n\nexport { Avatar, UserCard, AdminPanel, UserList, components, App }\n"
 }

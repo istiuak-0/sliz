@@ -1,787 +1,480 @@
 import { describe, it, expect } from 'vitest'
-import { extractJmlBlocks } from '../src/extract/extract'
-import type { JmlChunk } from '../src/extract/util'
+import { ExtractMacroBlocks } from '../src/extract/extract'
+import type { MacroChunks } from '../src/extract/util'
 
-function scan(source: string): JmlChunk[] {
-	return extractJmlBlocks(source)
+function scan(source: string): MacroChunks[] {
+	return ExtractMacroBlocks(source)
 }
 
 function scanContent(source: string): string[] {
 	return scan(source).map((c) => c.content)
 }
 
-describe('Basic tag extraction', () => {
-	it('extracts a simple tag block', () => {
-		const result = scanContent(`tag Avatar(x) { <div /> }`)
-		expect(result).toEqual([`tag Avatar(x) { <div /> }`])
-	})
-
-	it('extracts a tag with multi-line body', () => {
-		const src = `tag Avatar(x) {
+describe('Basic tml! extraction', () => {
+	it('extracts a simple tml block', () => {
+		const src = `const Avatar = tml! {
   <div class="avatar">
-    <img src={x} />
+    <img src={user.avatar} alt={user.name} />
   </div>
 }`
 		const result = scanContent(src)
 		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
+		expect(result[0]).toBe(`tml! {
+  <div class="avatar">
+    <img src={user.avatar} alt={user.name} />
+  </div>
+}`)
 	})
 
-	it('extracts a tag with nested braces', () => {
-		const src = `tag Foo(x) {
-  @if(x) {
-    <div>{x}</div>
+	it('extracts tml with no space before brace', () => {
+		const src = `const x = tml!{ <div /> }`
+		const result = scanContent(src)
+		expect(result).toHaveLength(1)
+		expect(result[0]).toBe(`tml!{ <div /> }`)
+	})
+
+	it('extracts tml with script block', () => {
+		const src = `const UserCard = tml! {
+  <script>
+    let user: User;
+    let isExpanded = false;
+  </script>
+
+  <div class="card">
+    <span>{user.name}</span>
+  </div>
+}`
+		const result = scanContent(src)
+		expect(result).toHaveLength(1)
+		expect(result[0]).toContain(`tml! {`)
+		expect(result[0]).toContain(`<script>`)
+		expect(result[0]).toContain(`</div>`)
+	})
+
+	it('reports type as "tml"', () => {
+		const result = scan(`const x = tml! { <div /> }`)
+		expect(result[0].type).toBe('tml')
+	})
+
+	it('reports correct start and end positions', () => {
+		const src = `const x = tml! { <div /> }`
+		const result = scan(src)
+		expect(result[0].start).toBe(10)
+		expect(result[0].end).toBe(src.length)
+	})
+
+	it('extracts content from offset', () => {
+		const src = `const x = tml! { <div /> }`
+		const result = scan(src)
+		expect(src.slice(result[0].start, result[0].end)).toBe(result[0].content)
+	})
+})
+
+describe('Basic jml! extraction', () => {
+	it('extracts a simple jml block', () => {
+		const src = `const Avatar = jml! {
+  <div class="avatar">
+    <img src={user.avatar} alt={user.name} />
+  </div>
+}`
+		const result = scanContent(src)
+		expect(result).toHaveLength(1)
+		expect(result[0]).toContain(`jml! {`)
+	})
+
+	it('reports type as "jml"', () => {
+		const result = scan(`const x = jml! { <div /> }`)
+		expect(result[0].type).toBe('jml')
+	})
+})
+
+describe('Multiple blocks', () => {
+	it('extracts multiple tml blocks', () => {
+		const src = `const A = tml! { <div /> }
+const B = tml! { <span /> }`
+		const result = scanContent(src)
+		expect(result).toHaveLength(2)
+		expect(result[0]).toBe(`tml! { <div /> }`)
+		expect(result[1]).toBe(`tml! { <span /> }`)
+	})
+
+	it('extracts mixed tml and jml blocks', () => {
+		const src = `const A = tml! { <div /> }
+const B = jml! { <span /> }`
+		const chunks = scan(src)
+		expect(chunks).toHaveLength(2)
+		expect(chunks[0].type).toBe('tml')
+		expect(chunks[1].type).toBe('jml')
+	})
+
+	it('extracts blocks separated by JS code', () => {
+		const src = `const x = 1
+const A = tml! { <div /> }
+const y = 2
+const B = tml! { <span /> }
+const z = 3`
+		const result = scanContent(src)
+		expect(result).toHaveLength(2)
+	})
+})
+
+describe('Macro in different positions', () => {
+	it('extracts tml in object property', () => {
+		const src = `const components = {
+  Button: tml! {
+    <button>{label}</button>
   }
 }`
 		const result = scanContent(src)
 		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
+		expect(result[0]).toContain(`tml! {`)
 	})
 
-	it('extracts a tag with complex params', () => {
-		const src = `tag UserCard(user: User, admin: boolean) {
-  <div class="card">{user.name}</div>
+	it('extracts tml in class field', () => {
+		const src = `class App {
+  readonly Card = tml! {
+    <div>{title}</div>
+  }
 }`
 		const result = scanContent(src)
 		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
+		expect(result[0]).toContain(`tml! {`)
 	})
 
-	it('extracts a tag with no body content', () => {
-		const src = `tag Empty(x) { }`
-		const result = scanContent(src)
-		expect(result).toEqual([src])
-	})
-
-	it('reports type as "tag"', () => {
-		const result = scan(`tag Foo(x) { <div /> }`)
-		expect(result[0].type).toBe('tag')
-	})
-})
-
-describe('Basic trait extraction', () => {
-	it('extracts a simple trait block', () => {
-		const src = `trait tooltip(ctx: TraitContext<HTMLElement, string>) {
-  ctx.el.title = ctx.value;
+	it('extracts tml in return statement', () => {
+		const src = `function createWidget() {
+  return tml! {
+    <div>widget</div>
+  }
 }`
 		const result = scanContent(src)
 		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
+		expect(result[0]).toContain(`tml! {`)
 	})
 
-	it('reports type as "trait"', () => {
-		const result = scan(`trait tooltip(ctx: TraitContext<HTMLElement, string>) {
-  ctx.el.title = ctx.value;
-}`)
-		expect(result[0].type).toBe('trait')
-	})
-
-	it('extracts a trait with complex body', () => {
-		const src = `trait model(ctx: TraitContext<HTMLInputElement, string>) {
-  ctx.el.value = ctx.value;
-  ctx.el.addEventListener("input", () => {
-    ctx.set(ctx.el.value);
-  });
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('extracts a trait with generic type params', () => {
-		const src = `trait focus(ctx: TraitContext<HTMLDivElement, void>) {
-  ctx.el.focus();
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-})
-
-describe('Mixed tag and trait blocks', () => {
-	it('extracts both tags and traits with correct types', () => {
-		const src = `
-tag Avatar(x) { <img src={x} /> }
-trait tooltip(ctx: TraitContext<HTMLElement, string>) {
-  ctx.el.title = ctx.value;
-}
-tag Button(label) { <button>{label}</button> }`
-		const chunks = scan(src)
-		expect(chunks).toHaveLength(3)
-		expect(chunks[0].type).toBe('tag')
-		expect(chunks[0].content).toContain('tag Avatar')
-		expect(chunks[1].type).toBe('trait')
-		expect(chunks[1].content).toContain('trait tooltip')
-		expect(chunks[2].type).toBe('tag')
-		expect(chunks[2].content).toContain('tag Button')
-	})
-})
-
-describe('Multiple tags in one source', () => {
-	it('extracts two tags separated by JS code', () => {
-		const src = `
-const x = 1
-tag Avatar(a) { <img src={a} /> }
-const y = 2
-tag Button(label) { <button>{label}</button> }
-const z = 3`
-		const result = scanContent(src)
-		expect(result).toHaveLength(2)
-		expect(result[0]).toBe(`tag Avatar(a) { <img src={a} /> }`)
-		expect(result[1]).toBe(`tag Button(label) { <button>{label}</button> }`)
-	})
-
-	it('extracts back-to-back tags with no separating code', () => {
-		const src = `tag A(x) { <div /> }tag B(y) { <span /> }`
-		const result = scanContent(src)
-		expect(result).toHaveLength(2)
-		expect(result[0]).toBe(`tag A(x) { <div /> }`)
-		expect(result[1]).toBe(`tag B(y) { <span /> }`)
-	})
-
-	it('extracts tags separated by comments', () => {
-		const src = `
-tag A(x) { <div /> }
-// this is a comment
-/* block comment */
-tag B(y) { <span /> }`
+	it('extracts tml in array', () => {
+		const src = `const widgets = [
+  tml! { <div>a</div> },
+  tml! { <span>b</span> },
+]`
 		const result = scanContent(src)
 		expect(result).toHaveLength(2)
 	})
-})
 
-describe('Strings containing "tag" keyword', () => {
-	it('ignores "tag" inside double-quoted string', () => {
-		const src = `const x = "tag Foo(x) { <div /> }"`
-		const result = scanContent(src)
-		expect(result).toHaveLength(0)
-	})
-
-	it('ignores "tag" inside single-quoted string', () => {
-		const src = `const x = 'tag Foo(x) { <div /> }'`
-		const result = scanContent(src)
-		expect(result).toHaveLength(0)
-	})
-
-	it('ignores "tag" inside template literal', () => {
-		const src = 'const x = `tag Foo(x) { <div /> }`'
-		const result = scanContent(src)
-		expect(result).toHaveLength(0)
-	})
-
-	it('extracts real tag that comes after a string containing "tag"', () => {
-		const src = `const x = "not a tag"
-tag Real(y) { <div /> }`
+	it('extracts tml as function argument', () => {
+		const src = `render(tml! {
+  <div>hello</div>
+})`
 		const result = scanContent(src)
 		expect(result).toHaveLength(1)
-		expect(result[0]).toContain('tag Real(y)')
+		expect(result[0]).toContain(`tml! {`)
 	})
 
-	it('handles string with escaped quotes near tag', () => {
-		const src = `const x = "he said \\"tag\\""
-tag Real(y) { <div /> }`
+	it('extracts tml in ternary expression', () => {
+		const src = `const widget = show
+  ? tml! { <div>yes</div> }
+  : tml! { <span>no</span> }`
 		const result = scanContent(src)
-		expect(result).toHaveLength(1)
+		expect(result).toHaveLength(2)
 	})
 
-	it('handles unclosed string (scanner should not hang)', () => {
-		const src = `"tag Foo(x) { <div /> }`
+	it('ignores tml inside template literal expression', () => {
+		const src = 'const html = `before ${tml! { <div>inside</div> }} after`'
 		const result = scanContent(src)
 		expect(result).toHaveLength(0)
 	})
 })
 
-describe('Comments containing "tag" keyword', () => {
-	it('ignores "tag" in line comment', () => {
-		const src = `// tag Foo(x) { <div /> }`
+describe('Nested braces', () => {
+	it('handles tml with nested braces in markup', () => {
+		const src = `const x = tml! {
+  @if(show) {
+    <div>{name}</div>
+  }
+}`
 		const result = scanContent(src)
-		expect(result).toHaveLength(0)
+		expect(result).toHaveLength(1)
+		expect(result[0]).toContain(`tml! {`)
 	})
 
-	it('ignores "tag" in block comment', () => {
-		const src = `/* tag Foo(x) { <div /> } */`
-		const result = scanContent(src)
-		expect(result).toHaveLength(0)
-	})
-
-	it('extracts tag that follows a line comment', () => {
-		const src = `// this is a comment
-tag Real(y) { <div /> }`
+	it('handles deeply nested braces', () => {
+		const src = `const x = tml! {
+  @if(a) {
+    @switch(b) {
+      @case('x') {
+        <div />
+      }
+      @default {
+        <span />
+      }
+    }
+  }
+}`
 		const result = scanContent(src)
 		expect(result).toHaveLength(1)
 	})
 
-	it('extracts tag that follows a block comment', () => {
-		const src = `/* comment */
-tag Real(y) { <div /> }`
+	it('handles tml with JS object inside', () => {
+		const src = `const x = tml! {
+  const config = { a: { nested: true } };
+  <div />
+}`
 		const result = scanContent(src)
 		expect(result).toHaveLength(1)
-	})
-
-	it('handles unclosed block comment (should not hang)', () => {
-		const src = `/* tag Foo(x) { <div /> }`
-		const result = scanContent(src)
-		expect(result).toHaveLength(0)
 	})
 })
 
-describe('Comments and regex inside tag body (brace counting)', () => {
-	it('handles line comment with } inside tag body', () => {
-		const src = `tag Foo(x) {
+describe('Strings inside tml body', () => {
+	it('handles string with } inside body', () => {
+		const src = `const x = tml! {
+  const msg = "use {braces}";
+  <div />
+}`
+		const result = scanContent(src)
+		expect(result).toHaveLength(1)
+	})
+
+	it('handles string with { inside body', () => {
+		const src = `const x = tml! {
+  const msg = "hello {world}";
+  <div />
+}`
+		const result = scanContent(src)
+		expect(result).toHaveLength(1)
+	})
+
+	it('handles escaped quotes in string', () => {
+		const src = `const x = tml! {
+  const msg = "he said \\"hello\\"";
+  <div />
+}`
+		const result = scanContent(src)
+		expect(result).toHaveLength(1)
+	})
+
+	it('handles template literal with expressions', () => {
+		const src = 'const x = tml! {\n  const msg = `hello ${getLabel({id: 1})}`;\n  <div />\n}'
+		const result = scanContent(src)
+		expect(result).toHaveLength(1)
+	})
+})
+
+describe('Comments inside tml body', () => {
+	it('handles line comment with } inside body', () => {
+		const src = `const x = tml! {
   // this is a } comment
   <div />
 }`
 		const result = scanContent(src)
 		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
 	})
 
-	it('handles block comment with } inside tag body', () => {
-		const src = `tag Foo(x) {
+	it('handles block comment with } inside body', () => {
+		const src = `const x = tml! {
   /* } */
   <div />
 }`
 		const result = scanContent(src)
 		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
 	})
 
-	it('handles block comment with { inside tag body', () => {
-		const src = `tag Foo(x) {
+	it('handles block comment with { inside body', () => {
+		const src = `const x = tml! {
   /* { */
   <div />
 }`
 		const result = scanContent(src)
 		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
 	})
 
-	it('handles regex with } inside tag body', () => {
-		const src = `tag Foo(x) {
+	it('handles multi-line block comment with braces', () => {
+		const src = `const x = tml! {
+  /*
+   * This comment has { and } and ( and )
+   * all over the place
+   */
+  <div />
+}`
+		const result = scanContent(src)
+		expect(result).toHaveLength(1)
+	})
+})
+
+describe('Regex inside tml body', () => {
+	it('handles regex with } inside body', () => {
+		const src = `const x = tml! {
   const re = /\\}/;
   <div />
 }`
 		const result = scanContent(src)
 		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
 	})
 
-	it('handles regex with { inside tag body', () => {
-		const src = `tag Foo(x) {
+	it('handles regex with { inside body', () => {
+		const src = `const x = tml! {
   const re = /\\{/;
   <div />
 }`
 		const result = scanContent(src)
 		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
 	})
 
-	it('handles complex regex with braces inside tag body', () => {
-		const src = `tag Foo(x) {
+	it('handles complex regex with braces', () => {
+		const src = `const x = tml! {
   const re = /^[a-z]{1,10}$/;
   <div />
 }`
 		const result = scanContent(src)
 		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles regex with character class containing /', () => {
-		const src = `tag Foo(x) {
-  const re = /[\\//]/;
-  <div />
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles regex assigned with equals', () => {
-		const src = `tag Foo(x) {
-  const re = /test/;
-  <div />
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles regex in return statement (after keyword)', () => {
-		const src = `tag Foo(x) {
-  return /pattern/;
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles division operator not confused as regex', () => {
-		const src = `tag Foo(x) {
-  const y = x / 2;
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles regex after comma in params', () => {
-		const src = `tag Foo(x, /pattern/) {
-  <div />
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
 	})
 
 	it('handles multiple regex in body', () => {
-		const src = `tag Foo(x) {
+		const src = `const x = tml! {
   const a = /foo/;
   const b = /bar/;
 }`
 		const result = scanContent(src)
 		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
 	})
 })
 
-describe('Comments and regex inside trait body', () => {
-	it('handles line comment with } in trait body', () => {
-		const src = `trait tooltip(ctx) {
-  // }
-  ctx.el.title = "test";
-}`
+describe('Strings and comments hiding "tml"', () => {
+	it('ignores tml inside double-quoted string', () => {
+		const src = `const x = "tml! { <div /> }"`
 		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
+		expect(result).toHaveLength(0)
 	})
 
-	it('handles regex in trait body', () => {
-		const src = `trait model(ctx) {
-  const re = /^\\d+$/;
-  ctx.el.value = ctx.value;
-}`
+	it('ignores tml inside single-quoted string', () => {
+		const src = `const x = 'tml! { <div /> }'`
 		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-})
-
-describe('Template literals inside tag body', () => {
-	it('handles template literal without expressions', () => {
-		const src = `tag Foo(x) {
-  const msg = \`hello world\`;
-  <div />
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
+		expect(result).toHaveLength(0)
 	})
 
-	it('handles template literal with ${} expression containing braces', () => {
-		const src = `tag Foo(x) {
-  const msg = \`hello \${getLabel({id: 1})}\`;
-  <div />
-}`
+	it('ignores tml inside template literal', () => {
+		const src = 'const x = `tml! { <div /> }`'
 		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
+		expect(result).toHaveLength(0)
 	})
 
-	it('handles template literal with nested template', () => {
-		const src = `tag Foo(x) {
-  const msg = \`outer \${\`inner \${x}\`}\`;
-  <div />
-}`
+	it('ignores tml in line comment', () => {
+		const src = `// tml! { <div /> }`
 		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-})
-
-describe('Parameter edge cases', () => {
-	it('handles nested parens in parameters', () => {
-		const src = `tag Foo(x: Record<string, number>) {
-  <div />
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
+		expect(result).toHaveLength(0)
 	})
 
-	it('handles string inside parameters', () => {
-		const src = `tag Foo(x: string = "default") {
-  <div />
-}`
+	it('ignores tml in block comment', () => {
+		const src = `/* tml! { <div /> } */`
 		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
+		expect(result).toHaveLength(0)
 	})
 
-	it('handles comment inside parameters (line comment)', () => {
-		const src = `tag Foo(x /* ) */) {
-  <div />
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles comment inside parameters (block comment)', () => {
-		const src = `tag Foo(x /* ) */) {
-  <div />
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles deeply nested parens in parameters', () => {
-		const src = `tag Foo(x: ((a: ((b: string))) => void)) {
-  <div />
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles regex inside parameters', () => {
-		const src = `tag Foo(pattern: RegExp = /test/) {
-  <div />
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-})
-
-describe('Whitespace variations', () => {
-	it('handles tab indentation', () => {
-		const src = `tag\tFoo(x)\t{\n\t<div />\n}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles extra spaces between keyword and name', () => {
-		const src = `tag   Foo(x) { <div /> }`
+	it('extracts real tml after string containing tml', () => {
+		const src = `const x = "not a tml"
+const y = tml! { <div /> }`
 		const result = scanContent(src)
 		expect(result).toHaveLength(1)
 	})
 
-	it('handles newline between tag and name', () => {
-		const src = `tag
-Foo(x) { <div /> }`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-	})
-
-	it('handles newline between name and params', () => {
-		const src = `tag Foo
-(x) { <div /> }`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-	})
-
-	it('handles newline between params and body', () => {
-		const src = `tag Foo(x)
-{ <div /> }`
+	it('extracts real tml after comment containing tml', () => {
+		const src = `// not a tml!
+const y = tml! { <div /> }`
 		const result = scanContent(src)
 		expect(result).toHaveLength(1)
 	})
 })
 
-describe('Non-JML identifiers should not trigger extraction', () => {
-	it('ignores identifier "tags" (plural)', () => {
-		const src = `tags Foo(x) { <div /> }`
+describe('Non-macro identifiers', () => {
+	it('ignores "tml" without bang', () => {
+		const src = `const x = tml { <div /> }`
 		const result = scanContent(src)
 		expect(result).toHaveLength(0)
 	})
 
-	it('ignores identifier "tagged"', () => {
-		const src = `tagged Foo(x) { <div /> }`
+	it('ignores "jml" without bang', () => {
+		const src = `const x = jml { <div /> }`
 		const result = scanContent(src)
 		expect(result).toHaveLength(0)
 	})
 
-	it('ignores identifier "mytag"', () => {
-		const src = `mytag Foo(x) { <div /> }`
+	it('ignores "tml" with space then bang', () => {
+		const src = `const x = tml ! { <div /> }`
 		const result = scanContent(src)
 		expect(result).toHaveLength(0)
 	})
 
-	it('ignores "tag" when not followed by whitespace', () => {
-		const src = `tag(x) { <div /> }`
+	it('ignores identifier starting with tml', () => {
+		const src = `const x = tmlButton! { <div /> }`
 		const result = scanContent(src)
 		expect(result).toHaveLength(0)
 	})
 
-	it('ignores "tag" as part of a longer word', () => {
-		const src = `const tags = 1`
+	it('ignores identifier ending with tml', () => {
+		const src = `const x = mytml! { <div /> }`
 		const result = scanContent(src)
 		expect(result).toHaveLength(0)
 	})
 
-	it('ignores "TAG" (case sensitive)', () => {
-		const src = `TAG Foo(x) { <div /> }`
+	it('ignores "TML" (case sensitive)', () => {
+		const src = `const x = TML! { <div /> }`
 		const result = scanContent(src)
 		expect(result).toHaveLength(0)
 	})
 
-	it('ignores "Tag" (case sensitive)', () => {
-		const src = `Tag Foo(x) { <div /> }`
-		const result = scanContent(src)
-		expect(result).toHaveLength(0)
-	})
-
-	it('ignores "traits" (plural)', () => {
-		const src = `traits Foo(x) { <div /> }`
-		const result = scanContent(src)
-		expect(result).toHaveLength(0)
-	})
-
-	it('ignores "traitted"', () => {
-		const src = `traitted Foo(x) { <div /> }`
-		const result = scanContent(src)
-		expect(result).toHaveLength(0)
-	})
-})
-
-describe('Block without parameters', () => {
-	it('rejects tag without params (no paren)', () => {
-		const src = `tag Foo { <div /> }`
-		const result = scanContent(src)
-		expect(result).toHaveLength(0)
-	})
-
-	it('rejects trait without params (no paren)', () => {
-		const src = `trait Foo { <div /> }`
-		const result = scanContent(src)
-		expect(result).toHaveLength(0)
-	})
-
-	it('rejects tag with empty parens then no brace immediately', () => {
-		const src = `tag Foo() bar { <div /> }`
+	it('ignores "Tml" (case sensitive)', () => {
+		const src = `const x = Tml! { <div /> }`
 		const result = scanContent(src)
 		expect(result).toHaveLength(0)
 	})
 })
 
 describe('Unclosed blocks', () => {
-	it('rejects tag with unclosed body brace', () => {
-		const src = `tag Foo(x) { <div />`
+	it('rejects tml with unclosed body brace', () => {
+		const src = `const x = tml! { <div />`
 		const result = scanContent(src)
 		expect(result).toHaveLength(0)
 	})
 
-	it('rejects tag with unclosed param paren', () => {
-		const src = `tag Foo(x { <div /> }`
+	it('rejects tml with no body', () => {
+		const src = `const x = tml!`
 		const result = scanContent(src)
 		expect(result).toHaveLength(0)
 	})
 
-	it('rejects tag with mismatched braces', () => {
-		const src = `tag Foo(x) { <div> {x} </div>`
-		const result = scanContent(src)
-		expect(result).toHaveLength(0)
-	})
-
-	it('rejects trait with unclosed body brace', () => {
-		const src = `trait Foo(x) { ctx.el.title = x`
+	it('rejects tml with no body after bang', () => {
+		const src = `const x = tml!;`
 		const result = scanContent(src)
 		expect(result).toHaveLength(0)
 	})
 })
 
-describe('Tags embedded in real-world JS code', () => {
-	it('extracts tag from a module with imports and exports', () => {
-		const src = `import { User } from './types'
-
-const ADMIN_ID = 'admin-123'
-
-tag Avatar(user: User) {
-  <div class="avatar">
-    <img src={user.avatar} alt={user.name} />
-  </div>
-}
-
-tag UserCard(user: User) {
-  <div class="card">
-    <Avatar user={user} />
-    <span>{user.name}</span>
-  </div>
-}
-
-export { Avatar, UserCard }`
+describe('Whitespace variations', () => {
+	it('handles tab between tml and !', () => {
+		const src = `const x = tml\t!{ <div /> }`
 		const result = scanContent(src)
-		expect(result).toHaveLength(2)
-		expect(result[0]).toContain('tag Avatar(user: User)')
-		expect(result[1]).toContain('tag UserCard(user: User)')
+		expect(result).toHaveLength(0)
 	})
 
-	it('extracts tag from code with functions and classes', () => {
-		const src = `function helper() {
-  return { name: 'test' }
-}
-
-class MyClass {
-  method() {
-    return 42
-  }
-}
-
-tag Banner(title: string) {
-  <div class="banner">
-    <h1>{title}</h1>
-  </div>
-}
-
-const arrow = (x) => x + 1`
+	it('handles newline between tml! and {', () => {
+		const src = `const x = tml!
+{ <div /> }`
 		const result = scanContent(src)
 		expect(result).toHaveLength(1)
-		expect(result[0]).toContain('tag Banner(title: string)')
+		expect(result[0]).toContain(`tml!`)
 	})
 
-	it('extracts tag from code with complex expressions', () => {
-		const src = `const items = arr.filter(x => x.active).map(x => x.id)
-
-tag List(items: string[]) {
-  <ul>
-    @for(const item of items) {
-      <li>{item}</li>
-    }
-  </ul>
-}`
+	it('handles multiple spaces between tml! and {', () => {
+		const src = `const x = tml!   { <div /> }`
 		const result = scanContent(src)
 		expect(result).toHaveLength(1)
+		expect(result[0]).toContain(`tml!`)
 	})
 
-	it('handles code with arrow functions containing braces', () => {
-		const src = `const fn = (x) => {
-  if (x) { return 1 }
-  return 0
-}
-
-tag Simple(y) {
-  <div>{y}</div>
-}`
+	it('handles tab indentation in body', () => {
+		const src = "const x = tml! {\n\t<div />\n}"
 		const result = scanContent(src)
 		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(`tag Simple(y) {
-  <div>{y}</div>
-}`)
-	})
-
-	it('handles code with object literals containing braces', () => {
-		const src = `const config = {
-  a: { nested: true },
-  b: [1, 2, 3]
-}
-
-tag ConfigView(cfg: typeof config) {
-  <div>{JSON.stringify(cfg)}</div>
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-	})
-})
-
-describe('JML control flow inside tag body', () => {
-	it('handles @if/@else inside body', () => {
-		const src = `tag Panel(user: User) {
-  @if(user.role === 'admin') {
-    <AdminPanel />
-  }
-  @else {
-    <SignIn />
-  }
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles @for/@empty inside body', () => {
-		const src = `tag UserList(users: User[]) {
-  @for(const user of users) {
-    <Card user={user} />
-  }
-  @empty {
-    <p>No users found.</p>
-  }
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles @switch/@case/@default inside body', () => {
-		const src = `tag RoleView(role: string) {
-  @switch(role) {
-    @case('admin') {
-      <AdminTools />
-    }
-    @case('user') {
-      <UserTools />
-    }
-    @default {
-      <GuestTools />
-    }
-  }
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles @try/@catch inside body', () => {
-		const src = `tag SafeRender(data: any) {
-  @try {
-    <RiskyComponent data={data} />
-  }
-  @catch(err) {
-    <ErrorFallback message={err.message} />
-  }
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles @with inside body', () => {
-		const src = `tag Profile(props: any) {
-  @with(props.user.profile) {
-    <div>
-      <h1>{name}</h1>
-      <p>{address.city}</p>
-    </div>
-  }
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles deeply nested control flow', () => {
-		const src = `tag Dashboard(user: User) {
-  @if(user) {
-    @switch(user.role) {
-      @case('admin') {
-        @if(user.active) {
-          <AdminDashboard />
-        }
-        @else {
-          <InactiveAdmin />
-        }
-      }
-      @default {
-        <UserDashboard />
-      }
-    }
-  }
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
+		expect(result[0]).toContain(`tml! {`)
 	})
 })
 
@@ -791,140 +484,19 @@ describe('Boundary conditions', () => {
 		expect(result).toHaveLength(0)
 	})
 
-	it('handles source that is just "tag"', () => {
-		const result = scanContent('tag')
+	it('handles source that is just "tml"', () => {
+		const result = scanContent('tml')
 		expect(result).toHaveLength(0)
 	})
 
-	it('handles source that is "tag " (with trailing space)', () => {
-		const result = scanContent('tag ')
+	it('handles source that is just "tml!"', () => {
+		const result = scanContent('tml!')
 		expect(result).toHaveLength(0)
 	})
 
-	it('handles source that is just "tag Foo"', () => {
-		const result = scanContent('tag Foo')
+	it('handles source that is just "tml! {"', () => {
+		const result = scanContent('tml! {')
 		expect(result).toHaveLength(0)
-	})
-
-	it('handles source that is just "tag Foo("', () => {
-		const result = scanContent('tag Foo(')
-		expect(result).toHaveLength(0)
-	})
-
-	it('handles source that is just "tag Foo()"', () => {
-		const result = scanContent('tag Foo()')
-		expect(result).toHaveLength(0)
-	})
-
-	it('handles source that is just "tag Foo() {"', () => {
-		const result = scanContent('tag Foo() {')
-		expect(result).toHaveLength(0)
-	})
-
-	it('handles very long tag body', () => {
-		const body = Array.from({ length: 100 }, (_, i) => `  <div id="${i}">{${i}}</div>`).join('\n')
-		const src = `tag BigList(x) {\n${body}\n}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles tag with special chars in attribute values', () => {
-		const src = `tag Special(x) {
-  <div data-foo="bar" class='baz' />
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-	})
-})
-
-describe('Extreme edge cases', () => {
-	it('handles multiple string types interleaved with tags', () => {
-		const src = `
-"tag not real"
-tag A(x) { <div /> }
-'also not real'
-/* tag also not real */
-tag B(y) { <span /> }
-\`template with tag\`
-tag C(z) { <p /> }
-`
-		const result = scanContent(src)
-		expect(result).toHaveLength(3)
-		expect(result[0]).toContain('tag A')
-		expect(result[1]).toContain('tag B')
-		expect(result[2]).toContain('tag C')
-	})
-
-	it('handles tag with escaped quotes in string params', () => {
-		const src = `tag Foo(x: string = "he said \\"hello\\"") {
-  <div>{x}</div>
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-	})
-
-	it('handles tag with regex containing slashes', () => {
-		const src = `tag Foo(pattern: string) {
-  const re = new RegExp(pattern);
-  <div />
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-	})
-
-	it('handles tag body with all JML primitives', () => {
-		const src = `tag FullExample(user: User, items: Item[]) {
-  @if(user) {
-    @with(user.profile) {
-      <div class="profile">
-        <h1>{name}</h1>
-        @for(const item of items) {
-          <Card item={item} />
-        }
-        @empty {
-          <p>No items</p>
-        }
-        @try {
-          <RiskyWidget />
-        }
-        @catch(err) {
-          <Error message={err.message} />
-        }
-      </div>
-    }
-  }
-  @else {
-    <SignIn />
-  }
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles interleaved valid and invalid tag-like patterns', () => {
-		const src = `
-tag Good(x) { <div /> }
-const tag = "var named tag"
-tag(x) { }
-tag AlsoGood(y) {
-  <span>{y}</span>
-}
-// tag InComment(z) { }
-"tag InString(w) { }"
-`
-		const result = scanContent(src)
-		expect(result).toHaveLength(2)
-		expect(result[0]).toContain('tag Good(x)')
-		expect(result[1]).toContain('tag AlsoGood(y)')
-	})
-
-	it('handles Windows line endings (\\r\\n)', () => {
-		const src = `tag Foo(x) {\r\n  <div />\r\n}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
 	})
 
 	it('handles source with only whitespace', () => {
@@ -932,176 +504,128 @@ tag AlsoGood(y) {
 		expect(result).toHaveLength(0)
 	})
 
-	it('handles tag at very start of file', () => {
-		const src = `tag First(x) { <div /> }
-const y = 1`
+	it('handles very long body', () => {
+		const body = Array.from({ length: 100 }, (_, i) => `  <div id="${i}">{${i}}</div>`).join('\n')
+		const src = `const x = tml! {\n${body}\n}`
 		const result = scanContent(src)
 		expect(result).toHaveLength(1)
 	})
+})
 
-	it('handles tag at very end of file (no trailing newline)', () => {
-		const src = `const y = 1
-tag Last(x) { <div /> }`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-	})
+describe('Real-world usage', () => {
+	it('extracts tml from a full component file', () => {
+		const src = `import { formatName } from './utils'
 
-	it('handles consecutive tags with no code between', () => {
-		const src = `tag A(x) { <div /> }tag B(y) { <span /> }tag C(z) { <p /> }`
-		const result = scanContent(src)
-		expect(result).toHaveLength(3)
-	})
+const UserCard = tml! {
+  <script>
+    import { formatName } from './utils';
+    let user: User;
+    let isExpanded = false;
+  </script>
 
-	it('handles tag with unicode in string inside body', () => {
-		const src = `tag Foo(x) {
-  const msg = "Hello \\u0041\\u0042";
-  <div>{msg}</div>
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-	})
-
-	it('handles tag where body contains the word "tag" as text', () => {
-		const src = `tag Foo(x) {
-  <div>The word tag appears here</div>
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles division after closing paren (not confused as regex)', () => {
-		const src = `tag Foo(x) {
-  const y = getValue() / 2;
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles division after closing bracket (not confused as regex)', () => {
-		const src = `tag Foo(x) {
-  const y = arr[0] / 2;
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles division after identifier (not confused as regex)', () => {
-		const src = `tag Foo(x) {
-  const y = count / 2;
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles regex after assignment operator', () => {
-		const src = `tag Foo(x) {
-  const re = /test/;
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles regex after return keyword', () => {
-		const src = `tag Foo(x) {
-  return /test/;
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles regex after opening paren (in function call)', () => {
-		const src = `tag Foo(x) {
-  const m = str.match(/test/);
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles nested /* inside block comment (JS does not nest)', () => {
-		const src = `tag Foo(x) {
-  /* outer /* inner */ still comment }
-  <div />
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(`tag Foo(x) {
-  /* outer /* inner */ still comment }`)
-	})
-
-	it('handles string with braces inside body', () => {
-		const src = `tag Foo(x) {
-  const msg = "use {braces} and (parens)";
-  <div />
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles regex after various operators in body', () => {
-		const src = `tag Foo(x) {
-  const a = x ? /yes/ : /no/;
-  const c = x || /fallback/;
-}`
-		const result = scanContent(src)
-		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
-	})
-
-	it('handles interleaved tag and trait with mixed features', () => {
-		const src = `
-import { TraitContext } from './types'
-
-tag Avatar(user: User) {
-  <div class="avatar">
-    <img src={user.avatar} />
+  <div class="card" class:expanded={isExpanded}>
+    <span>{formatName(user.name)}</span>
+    <button onClick={() => isExpanded = !isExpanded}>Toggle</button>
   </div>
 }
 
-trait tooltip(ctx: TraitContext<HTMLElement, string>) {
-  ctx.el.title = ctx.value;
-  const re = /^tooltip-/;
-}
-
-tag Button(label: string) {
-  <button .tooltip={label}>{label}</button>
-}
-
-trait ripple(ctx: TraitContext<HTMLButtonElement, void>) {
-  ctx.el.addEventListener("click", () => {
-    // ripple effect
-    const pattern = /ripple/;
-  });
-}`
-		const chunks = scan(src)
-		expect(chunks).toHaveLength(4)
-		expect(chunks[0].type).toBe('tag')
-		expect(chunks[0].content).toContain('tag Avatar')
-		expect(chunks[1].type).toBe('trait')
-		expect(chunks[1].content).toContain('trait tooltip')
-		expect(chunks[2].type).toBe('tag')
-		expect(chunks[2].content).toContain('tag Button')
-		expect(chunks[3].type).toBe('trait')
-		expect(chunks[3].content).toContain('trait ripple')
+export default UserCard`
+		const result = scanContent(src)
+		expect(result).toHaveLength(1)
+		expect(result[0]).toContain(`tml! {`)
 	})
 
-	it('handles comment with braces across many lines in body', () => {
-		const src = `tag Foo(x) {
-  /*
-   * This comment has { and } and ( and )
-   * all over the place
-   */
-  <div />
+	it('extracts tml blocks from component registry', () => {
+		const src = `import { TraitContext } from './types'
+
+const tooltip = (ctx: TraitContext<HTMLElement, string>) => {
+  ctx.el.title = ctx.value;
+}
+
+const components = {
+  Avatar: tml! {
+    <div class="avatar">
+      <img src={user.avatar} />
+    </div>
+  },
+  Button: tml! {
+    <button>{label}</button>
+  },
+}
+
+export { components }`
+		const chunks = scan(src)
+		expect(chunks).toHaveLength(2)
+		expect(chunks[0].type).toBe('tml')
+		expect(chunks[1].type).toBe('tml')
+	})
+
+	it('extracts tml blocks from class', () => {
+		const src = `class App {
+  readonly Header = tml! {
+    <header>
+      <h1>{title}</h1>
+    </header>
+  }
+
+  readonly Footer = tml! {
+    <footer>
+      <p>© 2026</p>
+    </footer>
+  }
+}`
+		const result = scanContent(src)
+		expect(result).toHaveLength(2)
+	})
+
+	it('handles mixed tml and regular JS', () => {
+		const src = `
+const x = 1
+const A = tml! { <div /> }
+function helper() { return x }
+const B = tml! { <span /> }
+const y = 2`
+		const result = scanContent(src)
+		expect(result).toHaveLength(2)
+	})
+
+	it('handles Windows line endings', () => {
+		const src = "const x = tml! {\r\n  <div />\r\n}"
+		const result = scanContent(src)
+		expect(result).toHaveLength(1)
+	})
+
+	it('handles nested tml-like text in markup', () => {
+		const src = `const x = tml! {
+  <div>The word tml appears here</div>
 }`
 		const result = scanContent(src)
 		expect(result).toHaveLength(1)
-		expect(result[0]).toBe(src)
+	})
+
+	it('handles tml in arrow function return', () => {
+		const src = `const create = () => tml! {
+  <div>created</div>
+}`
+		const result = scanContent(src)
+		expect(result).toHaveLength(1)
+	})
+
+	it('handles tml in conditional expression', () => {
+		const src = `const widget = isActive
+  ? tml! { <div>active</div> }
+  : null`
+		const result = scanContent(src)
+		expect(result).toHaveLength(1)
+	})
+
+	it('handles multiple tml in array', () => {
+		const src = `const items = [
+  tml! { <div>1</div> },
+  tml! { <div>2</div> },
+  tml! { <div>3</div> },
+]`
+		const result = scanContent(src)
+		expect(result).toHaveLength(3)
 	})
 })

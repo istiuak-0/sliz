@@ -25,8 +25,7 @@ export const CharCodes = {
 	Slash: 47, // '/'
 	Percent: 37, // '%'
 	Equals: 61, // '='
-	LessThan: 60, // '<'
-	GreaterThan: 62, // '>'
+
 	Ampersand: 38, // '&'
 	Pipe: 124, // '|'
 	Caret: 94, // '^'
@@ -34,12 +33,11 @@ export const CharCodes = {
 	QuestionMark: 63, // '?'
 
 	// ==>> Punctuation
-	Dot: 46, // '.'
+
 	Comma: 44, // ','
 	Colon: 58, // ':'
 	Semicolon: 59, // ';'
-	AtSign: 64, // '@'
-	Hash: 35, // '#'
+
 	DollarSign: 36, // '$'
 	Underscore: 95, // '_'
 	Backslash: 92, // '\\'

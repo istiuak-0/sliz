@@ -1,45 +1,23 @@
 import { CharCodes } from './ascii.code'
 import { IsAlpha, IsIdentifierPart, IsQuote, IsWhiteSpace } from './checks'
 
-// ===>> Opaque tokens: strings, comments, regex
+// ===>> Skip individual tokens
 //
-// These three constructs can contain *any* characters, including ones that
-// look like the syntax we care about (quotes, braces, parens). So instead
-// of looking at their contents char-by-char, we detect where one starts and
-// jump straight to where it ends.
+// When scanning source code, we need to find macro keywords like `tml!` and
+// matching `{ }` braces. The problem is that strings, comments, and regex
+// literals can contain *any* characters — including `{`, `}`, and text that
+// looks like `tml!`. But those characters are just data, not real syntax.
+//
+// Instead of parsing their contents char-by-char, we detect where one starts
+// and jump straight to where it ends. This is both simpler and correct — we
+// never accidentally treat a `}` inside a string as the end of a brace block.
 
 /**
- * If `position` is the start of a string, comment, or regex literal, returns the
- * position just after it ends. Otherwise returns `null` — meaning "this is
- * ordinary code, look at it one character at a time."
+ * Skips a string literal. Starts at the opening quote, handles `\` escapes
+ * (the next char after `\` is always part of the string, even if it's a quote),
+ * and ends at the matching closing quote.
  */
-export function skipOpaqueToken(source: string, position: number) {
-	const code = source.charCodeAt(position)
-
-	if (IsQuote(code)) {
-		return skipString(source, position)
-	}
-
-	if (code === CharCodes.Slash) {
-		const next = source.charCodeAt(position + 1)
-
-		if (next === CharCodes.Slash) {
-			return skipLineComment(source, position)
-		}
-
-		if (next === CharCodes.Asterisk) {
-			return skipBlockComment(source, position)
-		}
-
-		if (isRegexStart(source, position)) {
-			return skipRegex(source, position)
-		}
-	}
-
-	return null
-}
-
-function skipString(source: string, start: number) {
+export function SkipString(source: string, start: number) {
 	const quoteCode = source.charCodeAt(start)
 	let position = start + 1
 
@@ -57,7 +35,11 @@ function skipString(source: string, start: number) {
 	return position
 }
 
-function skipLineComment(source: string, start: number) {
+/**
+ * Skips a line comment (`// ...`). Everything from `//` to the end of the line
+ * is ignored. The comment ends at (but does not consume) the newline character.
+ */
+export function SkipLineComment(source: string, start: number) {
 	let position = start + 2
 	while (position < source.length && source.charCodeAt(position) !== CharCodes.LineFeed) {
 		position++
@@ -66,7 +48,12 @@ function skipLineComment(source: string, start: number) {
 	return position
 }
 
-function skipBlockComment(source: string, start: number) {
+/**
+ * Skips a block comment (`/* ... * /`). Block comments do NOT nest in JS —
+ * the first `*/` encountered closes the comment, even if there's a `/*` inside.
+ * If the comment is never closed, we return the end of the source.
+ */
+export function SkipBlockComment(source: string, start: number) {
 	let position = start + 2
 	while (position < source.length) {
 		if (source.charCodeAt(position) === CharCodes.Asterisk && source.charCodeAt(position + 1) === CharCodes.Slash) {
@@ -80,12 +67,18 @@ function skipBlockComment(source: string, start: number) {
 }
 
 /**
- * Heuristic: a `/` starts a regex literal if the previous meaningful character
- * is one of `= ( [ { ; , ! & | ? ^ + - % * :` or if it's the start of the
- * source. `<` and `>` are intentionally excluded so `</tag>` (JSX closing tag)
+ * Determines if a `/` at `position` starts a regex literal or is division.
+ *
+ * In JS, `/` is ambiguous — it can be a regex delimiter or a division operator.
+ * The disambiguation depends on what comes before: after `=`, `(`, `{`, `,`,
+ * `;`, `!`, etc., `/` starts a regex. After a value like `)` or an identifier,
+ * it's division.
+ *
+ * We skip backwards past whitespace, then check the preceding character.
+ * `<` and `>` are intentionally excluded so `</tag>` (JSX closing tag)
  * is never mistaken for division-then-regex.
  */
-function isRegexStart(source: string, position: number) {
+export function IsRegexStart(source: string, position: number) {
 	let localPosition = position - 1
 
 	while (localPosition >= 0 && IsWhiteSpace(source.charCodeAt(localPosition))) {
@@ -119,7 +112,16 @@ function isRegexStart(source: string, position: number) {
 	}
 }
 
-function skipRegex(source: string, start: number) {
+/**
+ * Skips a regex literal starting at the opening `/`.
+ *
+ * Key rules:
+ * - `\` escapes the next character (so `\/` doesn't end the regex)
+ * - A newline without a preceding `\` means the regex is unterminated
+ * - `[...]` is a character class — `/` inside doesn't end the regex
+ * - After the closing `/`, regex flags (like `gi`) are part of the token
+ */
+export function SkipRegex(source: string, start: number) {
 	let position = start + 1
 	let inCharClass = false
 
@@ -158,27 +160,53 @@ function skipRegex(source: string, start: number) {
 	return position
 }
 
+
 // ===>> Balanced delimiters, e.g. (...) or {...}
 
 /**
  * Starting *at* an opening delimiter, returns the position just after its
- * matching closing delimiter, or `null` if it's never closed. Uses
- * `skipOpaqueToken` so a `)` or `}` inside a string/comment/regex can never
- * be mistaken for the real thing.
+ * matching closing delimiter, or `null` if it's never closed.
+ *
+ * This is the core mechanism for finding the body of a macro: once we see
+ * `tml! {`, we call `SkipBalanced` on the `{` to find its matching `}`.
+ *
+ * The tricky part: the body can contain strings, comments, and regex that
+ * themselves contain `{` or `}`. So we skip over those, ensuring we only
+ * count braces that are actual code.
  */
-
-export function skipBalanced(source: string, start: number, openCode: number, closeCode: number) {
+export function SkipBalanced(source: string, start: number, openCode: number, closeCode: number) {
 	let position = start + 1
 	let depth = 1
 
 	while (position < source.length && depth > 0) {
-		const afterOpaque = skipOpaqueToken(source, position)
-		if (afterOpaque !== null) {
-			position = afterOpaque
+		const code = source.charCodeAt(position)
+
+		// Skip string literals — content inside quotes is just data.
+		if (IsQuote(code)) {
+			position = SkipString(source, position)
 			continue
 		}
 
-		const code = source.charCodeAt(position)
+		// `/` can start a line comment, block comment, or regex literal.
+		if (code === CharCodes.Slash) {
+			const next = source.charCodeAt(position + 1)
+
+			if (next === CharCodes.Slash) {
+				position = SkipLineComment(source, position)
+				continue
+			}
+
+			if (next === CharCodes.Asterisk) {
+				position = SkipBlockComment(source, position)
+				continue
+			}
+
+			if (IsRegexStart(source, position)) {
+				position = SkipRegex(source, position)
+				continue
+			}
+		}
+
 		if (code === openCode) {
 			depth++
 		} else if (code === closeCode) {
@@ -192,21 +220,16 @@ export function skipBalanced(source: string, start: number, openCode: number, cl
 
 // ===>> Whitespace / identifiers
 
-export function skipWhiteSpace(source: string, position: number): number {
+export function SkipWhiteSpace(source: string, position: number): number {
 	while (position < source.length && IsWhiteSpace(source.charCodeAt(position))) {
 		position++
 	}
 	return position
 }
 
-export function skipIdentifier(source: string, position: number): number {
+export function SkipIdentifier(source: string, position: number): number {
 	while (position < source.length && IsIdentifierPart(source.charCodeAt(position))) {
 		position++
 	}
 	return position
-}
-
-/** True if `pos` is whitespace or end-of-source — i.e. a word ends cleanly here. */
-export function isWordBoundary(source: string, position: number): boolean {
-	return position >= source.length || IsWhiteSpace(source.charCodeAt(position))
 }

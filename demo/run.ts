@@ -1,5 +1,5 @@
 import { readFileSync, writeFileSync } from 'fs'
-import { extractJmlBlocks } from '../src/extract/extract'
+import { ExtractMacroBlocks } from '../src/extract/extract'
 
 const inputPath = process.argv[2]
 const outputPath = process.argv[3] || 'demo/output.json'
@@ -10,7 +10,7 @@ if (!inputPath) {
 }
 
 const source = readFileSync(inputPath, 'utf-8')
-const chunks = extractJmlBlocks(source)
+const chunks = ExtractMacroBlocks(source)
 
 const result = {
 	source: inputPath,

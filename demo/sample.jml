@@ -6,29 +6,11 @@ function fetchUsers(): User[] {
 	return []
 }
 
-export tag Avatar(user: User) {
-	<div class="avatar">
-		<img src={user.avatar} alt={user.name} />
-	</div>
-	<script>
-	
-	let data = 10;
-	const demo ={}
-	</script>
-}
-
-tag UserCard(user: User) {
-	<div class="card">
-		<Avatar user={user} />
-		<span>{user.name}</span>
-	</div>
-}
-
-trait tooltip(ctx: TraitContext<HTMLElement, string>) {
+const tooltip = (ctx: TraitContext<HTMLElement, string>) => {
 	ctx.el.title = ctx.value
 }
 
-trait model(ctx: TraitContext<HTMLInputElement, string>) {
+const model = (ctx: TraitContext<HTMLInputElement, string>) => {
 	ctx.el.value = ctx.value
 
 	ctx.el.addEventListener('input', () => {
@@ -36,7 +18,20 @@ trait model(ctx: TraitContext<HTMLInputElement, string>) {
 	})
 }
 
-tag AdminPanel(user: User) {
+const Avatar = tml! {
+	<div class="avatar">
+		<img src={user.avatar} alt={user.name} />
+	</div>
+}
+
+const UserCard = tml! {
+	<div class="card">
+		<Avatar user={user} />
+		<span>{user.name}</span>
+	</div>
+}
+
+const AdminPanel = tml! {
 	@if(user.role === 'admin') {
 		<div class="admin">
 			<h1>Admin Dashboard</h1>
@@ -53,7 +48,7 @@ tag AdminPanel(user: User) {
 	}
 }
 
-tag UserList(users: User[]) {
+const UserList = tml! {
 	<ul>
 		@for(const [index, user] of users.entries()) {
 			<li key={index}>
@@ -66,17 +61,18 @@ tag UserList(users: User[]) {
 	</ul>
 }
 
-trait ripple(ctx: TraitContext<HTMLButtonElement, void>) {
-	const re = /^ripple-/
-
-	ctx.el.addEventListener('click', () => {
-		// ripple effect
-		const pattern = /animate/
-	})
+const components = {
+	Button: tml! {
+		<button .tooltip={label} .ripple={}>{label}</button>
+	},
 }
 
-tag Button(label: string) {
-	<button .tooltip={label} .ripple={}>{label}</button>
+class App {
+	readonly Header = tml! {
+		<header>
+			<h1>{title}</h1>
+		</header>
+	}
 }
 
 const config = {
@@ -84,4 +80,4 @@ const config = {
 	timeout: 5000,
 }
 
-export { Avatar, UserCard, AdminPanel, UserList, Button }
+export { Avatar, UserCard, AdminPanel, UserList, components, App }

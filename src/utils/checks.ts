@@ -37,7 +37,7 @@ export function IsIdentifierStart(code: number): boolean {
 }
 
 /*
- * checks if a character can be part of a js Identifier (adds 0-9)
+ * checks if a character can be part of a js Identifier
  */
 export function IsIdentifierPart(code: number): boolean {
 	return IsIdentifierStart(code) || IsDigit(code)

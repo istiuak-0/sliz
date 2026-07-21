@@ -1,78 +1,124 @@
 import { CharCodes } from '../utils/ascii.code'
-import { IsIdentifierStart } from '../utils/checks'
-import { isWordBoundary, skipBalanced, skipIdentifier, skipOpaqueToken, skipWhiteSpace } from '../utils/common'
-import { isJmlKeyword, JmlBlockType, JmlChunk } from './util'
+import { IsIdentifierStart, IsQuote } from '../utils/checks'
+import {
+	IsRegexStart,
+	SkipBalanced,
+	SkipBlockComment,
+	SkipIdentifier,
+	SkipLineComment,
+	SkipRegex,
+	SkipString,
+	SkipWhiteSpace,
+} from '../utils/common'
+import { Macros, type MacroChunks, type MacroChunkType } from './util'
 
-export function extractJmlBlocks(source: string) {
-	const chunks: JmlChunk[] = []
-	let position = 0
+/**
+ * Extracts all `tml!` and `jml!` macro blocks from a JavaScript/TypeScript source string.
+ *
+ * Theory: Macros can appear anywhere in JS assignments, object properties, return
+ * statements, arrays, ternaries, etc. The extractor walks the source and looks for
+ * identifiers matching a macro keyword (`tml!` or `jml!`) followed by a `{ ... }` body.
+ *
+ * The tricky part is that strings, comments, and regex literals can contain characters
+ * that look exactly like macro syntax (`tml!`, `{`, `}`). So before inspecting any
+ * character, we first check if we're inside one of these "opaque" constructs and skip
+ * over it entirely. This prevents false matches like `"tml! { <div /> }"` or `// tml! { ... }`.
+ *
+ * Once a macro keyword is found, we verify the next non-whitespace character is `{`,
+ * then find the matching closing `}` (also skipping opaque tokens inside the body).
+ *
+ * Returns an array of chunks with precise `start`/`end` byte positions, enabling
+ * surgical replacement of just the macro blocks while leaving host JS untouched.
+ */
+export function ExtractMacroBlocks(source: string) {
+	const chunks: MacroChunks[] = []
+	let cursor = 0
 
-	while (position < source.length) {
-		const afterOpaque = skipOpaqueToken(source, position)
+	while (cursor < source.length) {
+		const code = source.charCodeAt(cursor)
 
-		if (afterOpaque !== null) {
-			position = afterOpaque
+		// Skip string literals, content inside quotes is just data.
+		if (IsQuote(code)) {
+			cursor = SkipString(source, cursor)
 			continue
 		}
 
-		if (IsIdentifierStart(source.charCodeAt(position))) {
-			const wordEnd = skipIdentifier(source, position)
-			const word = source.slice(position, wordEnd) as JmlBlockType
+		// `/` can start a line comment, block comment, or regex literal.
+		if (code === CharCodes.Slash) {
+			const next = source.charCodeAt(cursor + 1)
 
-			if (isJmlKeyword(word) && isWordBoundary(source, wordEnd)) {
-				const chunk = tryExtractJmlBlock(source, position, wordEnd, word)
+			if (next === CharCodes.Slash) {
+				cursor = SkipLineComment(source, cursor)
+				continue
+			}
+
+			if (next === CharCodes.Asterisk) {
+				cursor = SkipBlockComment(source, cursor)
+				continue
+			}
+
+			if (IsRegexStart(source, cursor)) {
+				cursor = SkipRegex(source, cursor)
+				continue
+			}
+		}
+
+		// We're at ordinary code. Check if this character starts a macro keyword
+		// (macros always start with a letter: `t` for tml, `j` for jml).
+		if (IsIdentifierStart(code)) {
+			const macro = Macros.find((m) => source.startsWith(m.keyword, cursor))
+
+			if (macro) {
+				const chunk = TryExtractMacroBlock(source, cursor, cursor + macro.keyword.length, macro.type)
 
 				if (chunk) {
 					chunks.push(chunk)
-					position = chunk.end
+					cursor = chunk.end
 					continue
 				}
 			}
-			position = wordEnd
+
+			// Not a macro — skip past this identifier so we don't re-examine it.
+			cursor = SkipIdentifier(source, cursor)
 			continue
 		}
 
-		position++
+		cursor++
 	}
 
 	return chunks
 }
 
-function tryExtractJmlBlock(source: string, keywordStart: number, afterKeyword: number, blockType: JmlBlockType): JmlChunk | null {
-	let position = skipWhiteSpace(source, afterKeyword)
+/**
+ * Attempts to extract a single macro block starting after the keyword.
+ *
+ * After the keyword (`tml!` or `jml!`), there may be whitespace before `{`.
+ * We skip that whitespace, then verify the next char is `{`. If not — the macro
+ * is malformed (e.g. `tml!;` or `tml!foo`) — so we bail out.
+ *
+ * Once `{` is confirmed, `SkipBalanced` counts matching braces while respecting
+ * strings, comments, and regex inside the body, giving us the position just after
+ * the closing `}`.
+ */
+function TryExtractMacroBlock(source: string, macroStart: number, afterKeyword: number, type: MacroChunkType): MacroChunks | null {
+	const position = SkipWhiteSpace(source, afterKeyword)
 
-	if (!IsIdentifierStart(source.charCodeAt(position))) {
-		return null
-	}
-	position = skipIdentifier(source, position)
-	position = skipWhiteSpace(source, position)
-
-	if (source.charCodeAt(position) !== CharCodes.OpenParen) {
-		return null
-	}
-
-	const afterParams = skipBalanced(source, position, CharCodes.OpenParen, CharCodes.CloseParen)
-
-	if (afterParams === null) {
-		return null
-	}
-
-	position = skipWhiteSpace(source, afterParams)
-
+	// No `{` after the keyword — not a valid macro block.
 	if (source.charCodeAt(position) !== CharCodes.OpenBrace) {
 		return null
 	}
 
-	const afterBody = skipBalanced(source, position, CharCodes.OpenBrace, CharCodes.CloseBrace)
+	// Find the matching `}`, skipping any strings/comments/regex inside the body.
+	const afterBody = SkipBalanced(source, position, CharCodes.OpenBrace, CharCodes.CloseBrace)
 
 	if (afterBody === null) {
 		return null
 	}
 
 	return {
-		type: blockType,
-		content: source.slice(keywordStart, afterBody),
-		start: keywordStart,
+		type,
+		content: source.slice(macroStart, afterBody),
+		start: macroStart,
 		end: afterBody,
 	}
 }
