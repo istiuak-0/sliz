@@ -1,0 +1,545 @@
+[
+  {
+    "type": "tml",
+    "sourceRange": {
+      "start": 659,
+      "end": 887
+    },
+    "content": "tml! {\n\t@if(user.role === 'admin') {\n\t\t<div class=\"admin\">\n\t\t\t<h1>Admin Dashboard</h1>\n\t\t\t@for(const item of user.items) {\n\t\t\t\t<Card item={item} />\n\t\t\t}\n\t\t\t@empty {\n\t\t\t\t<p>No items</p>\n\t\t\t}\n\t\t</div>\n\t}\n\t@else {\n\t\t<SignIn />\n\t}\n}",
+    "ast": {
+      "kind": 0,
+      "children": [
+        {
+          "kind": 6,
+          "condition": "user . role = = = admin",
+          "children": [
+            {
+              "kind": 2,
+              "name": "div",
+              "attrs": [
+                {
+                  "kind": 4,
+                  "name": "class",
+                  "dot": false,
+                  "value": {
+                    "kind": 1,
+                    "value": "admin",
+                    "range": {
+                      "start": {
+                        "offset": 51,
+                        "line": 0,
+                        "column": 51
+                      },
+                      "end": {
+                        "offset": 56,
+                        "line": 0,
+                        "column": 56
+                      }
+                    }
+                  },
+                  "range": {
+                    "start": {
+                      "offset": 44,
+                      "line": 0,
+                      "column": 44
+                    },
+                    "end": {
+                      "offset": 56,
+                      "line": 0,
+                      "column": 56
+                    }
+                  }
+                }
+              ],
+              "children": [
+                {
+                  "kind": 2,
+                  "name": "h1",
+                  "attrs": [],
+                  "children": [
+                    {
+                      "kind": 1,
+                      "value": "Admin Dashboard",
+                      "range": {
+                        "start": {
+                          "offset": 66,
+                          "line": 0,
+                          "column": 66
+                        },
+                        "end": {
+                          "offset": 81,
+                          "line": 0,
+                          "column": 81
+                        }
+                      }
+                    }
+                  ],
+                  "range": {
+                    "start": {
+                      "offset": 62,
+                      "line": 0,
+                      "column": 62
+                    },
+                    "end": {
+                      "offset": 86,
+                      "line": 0,
+                      "column": 86
+                    }
+                  }
+                },
+                {
+                  "kind": 1,
+                  "value": "const item of user",
+                  "range": {
+                    "start": {
+                      "offset": 95,
+                      "line": 0,
+                      "column": 95
+                    },
+                    "end": {
+                      "offset": 113,
+                      "line": 0,
+                      "column": 113
+                    }
+                  }
+                },
+                {
+                  "kind": 1,
+                  "value": "items",
+                  "range": {
+                    "start": {
+                      "offset": 114,
+                      "line": 0,
+                      "column": 114
+                    },
+                    "end": {
+                      "offset": 119,
+                      "line": 0,
+                      "column": 119
+                    }
+                  }
+                },
+                {
+                  "kind": 5,
+                  "value": "< Card item = { item } />",
+                  "range": {
+                    "start": {
+                      "offset": 121,
+                      "line": 0,
+                      "column": 121
+                    },
+                    "end": {
+                      "offset": 152,
+                      "line": 0,
+                      "column": 152
+                    }
+                  }
+                },
+                {
+                  "kind": 5,
+                  "value": "< p > No items </ p >",
+                  "range": {
+                    "start": {
+                      "offset": 163,
+                      "line": 0,
+                      "column": 163
+                    },
+                    "end": {
+                      "offset": 189,
+                      "line": 0,
+                      "column": 189
+                    }
+                  }
+                }
+              ],
+              "range": {
+                "start": {
+                  "offset": 39,
+                  "line": 0,
+                  "column": 39
+                },
+                "end": {
+                  "offset": 198,
+                  "line": 0,
+                  "column": 198
+                }
+              }
+            }
+          ],
+          "range": {
+            "start": {
+              "offset": 8,
+              "line": 0,
+              "column": 8
+            },
+            "end": {
+              "offset": 201,
+              "line": 0,
+              "column": 201
+            }
+          }
+        },
+        {
+          "kind": 7,
+          "children": [
+            {
+              "kind": 3,
+              "name": "SignIn",
+              "attrs": [],
+              "range": {
+                "start": {
+                  "offset": 213,
+                  "line": 0,
+                  "column": 213
+                },
+                "end": {
+                  "offset": 223,
+                  "line": 0,
+                  "column": 223
+                }
+              }
+            }
+          ],
+          "range": {
+            "start": {
+              "offset": 203,
+              "line": 0,
+              "column": 203
+            },
+            "end": {
+              "offset": 226,
+              "line": 0,
+              "column": 226
+            }
+          }
+        }
+      ],
+      "range": {
+        "start": {
+          "offset": 8,
+          "line": 0,
+          "column": 8
+        },
+        "end": {
+          "offset": 226,
+          "line": 0,
+          "column": 226
+        }
+      }
+    }
+  },
+  {
+    "type": "tml",
+    "sourceRange": {
+      "start": 906,
+      "end": 1079
+    },
+    "content": "tml! {\n\t<ul>\n\t\t@for(const [index, user] of users.entries()) {\n\t\t\t<li key={index}>\n\t\t\t\t<UserCard user={user} />\n\t\t\t</li>\n\t\t}\n\t\t@empty {\n\t\t\t<p>No users found.</p>\n\t\t}\n\t</ul>\n}",
+    "ast": {
+      "kind": 0,
+      "children": [
+        {
+          "kind": 2,
+          "name": "ul",
+          "attrs": [],
+          "children": [
+            {
+              "kind": 1,
+              "value": "const index user of users",
+              "range": {
+                "start": {
+                  "offset": 20,
+                  "line": 0,
+                  "column": 20
+                },
+                "end": {
+                  "offset": 48,
+                  "line": 0,
+                  "column": 48
+                }
+              }
+            },
+            {
+              "kind": 1,
+              "value": "entries",
+              "range": {
+                "start": {
+                  "offset": 49,
+                  "line": 0,
+                  "column": 49
+                },
+                "end": {
+                  "offset": 56,
+                  "line": 0,
+                  "column": 56
+                }
+              }
+            },
+            {
+              "kind": 5,
+              "value": "< li key = { index } > < UserCard user = { user } /> </ li >",
+              "range": {
+                "start": {
+                  "offset": 60,
+                  "line": 0,
+                  "column": 60
+                },
+                "end": {
+                  "offset": 123,
+                  "line": 0,
+                  "column": 123
+                }
+              }
+            },
+            {
+              "kind": 5,
+              "value": "< p > No users found . </ p >",
+              "range": {
+                "start": {
+                  "offset": 133,
+                  "line": 0,
+                  "column": 133
+                },
+                "end": {
+                  "offset": 164,
+                  "line": 0,
+                  "column": 164
+                }
+              }
+            }
+          ],
+          "range": {
+            "start": {
+              "offset": 8,
+              "line": 0,
+              "column": 8
+            },
+            "end": {
+              "offset": 171,
+              "line": 0,
+              "column": 171
+            }
+          }
+        }
+      ],
+      "range": {
+        "start": {
+          "offset": 8,
+          "line": 0,
+          "column": 8
+        },
+        "end": {
+          "offset": 171,
+          "line": 0,
+          "column": 171
+        }
+      }
+    }
+  },
+  {
+    "type": "tml",
+    "sourceRange": {
+      "start": 1111,
+      "end": 1175
+    },
+    "content": "tml! {\n\t\t<button .tooltip={label} .ripple={}>{label}</button>\n\t}",
+    "ast": {
+      "kind": 0,
+      "children": [
+        {
+          "kind": 2,
+          "name": "button",
+          "attrs": [
+            {
+              "kind": 4,
+              "name": "tooltip",
+              "dot": true,
+              "value": {
+                "kind": 5,
+                "value": "label",
+                "range": {
+                  "start": {
+                    "offset": 26,
+                    "line": 0,
+                    "column": 26
+                  },
+                  "end": {
+                    "offset": 33,
+                    "line": 0,
+                    "column": 33
+                  }
+                }
+              },
+              "range": {
+                "start": {
+                  "offset": 17,
+                  "line": 0,
+                  "column": 17
+                },
+                "end": {
+                  "offset": 33,
+                  "line": 0,
+                  "column": 33
+                }
+              }
+            },
+            {
+              "kind": 4,
+              "name": "ripple",
+              "dot": true,
+              "value": {
+                "kind": 5,
+                "value": "",
+                "range": {
+                  "start": {
+                    "offset": 42,
+                    "line": 0,
+                    "column": 42
+                  },
+                  "end": {
+                    "offset": 44,
+                    "line": 0,
+                    "column": 44
+                  }
+                }
+              },
+              "range": {
+                "start": {
+                  "offset": 34,
+                  "line": 0,
+                  "column": 34
+                },
+                "end": {
+                  "offset": 44,
+                  "line": 0,
+                  "column": 44
+                }
+              }
+            }
+          ],
+          "children": [
+            {
+              "kind": 5,
+              "value": "label",
+              "range": {
+                "start": {
+                  "offset": 45,
+                  "line": 0,
+                  "column": 45
+                },
+                "end": {
+                  "offset": 52,
+                  "line": 0,
+                  "column": 52
+                }
+              }
+            }
+          ],
+          "range": {
+            "start": {
+              "offset": 9,
+              "line": 0,
+              "column": 9
+            },
+            "end": {
+              "offset": 61,
+              "line": 0,
+              "column": 61
+            }
+          }
+        }
+      ],
+      "range": {
+        "start": {
+          "offset": 9,
+          "line": 0,
+          "column": 9
+        },
+        "end": {
+          "offset": 61,
+          "line": 0,
+          "column": 61
+        }
+      }
+    }
+  },
+  {
+    "type": "tml",
+    "sourceRange": {
+      "start": 1211,
+      "end": 1263
+    },
+    "content": "tml! {\n\t\t<header>\n\t\t\t<h1>{title}</h1>\n\t\t</header>\n\t}",
+    "ast": {
+      "kind": 0,
+      "children": [
+        {
+          "kind": 2,
+          "name": "header",
+          "attrs": [],
+          "children": [
+            {
+              "kind": 2,
+              "name": "h1",
+              "attrs": [],
+              "children": [
+                {
+                  "kind": 5,
+                  "value": "title",
+                  "range": {
+                    "start": {
+                      "offset": 25,
+                      "line": 0,
+                      "column": 25
+                    },
+                    "end": {
+                      "offset": 32,
+                      "line": 0,
+                      "column": 32
+                    }
+                  }
+                }
+              ],
+              "range": {
+                "start": {
+                  "offset": 21,
+                  "line": 0,
+                  "column": 21
+                },
+                "end": {
+                  "offset": 37,
+                  "line": 0,
+                  "column": 37
+                }
+              }
+            }
+          ],
+          "range": {
+            "start": {
+              "offset": 9,
+              "line": 0,
+              "column": 9
+            },
+            "end": {
+              "offset": 49,
+              "line": 0,
+              "column": 49
+            }
+          }
+        }
+      ],
+      "range": {
+        "start": {
+          "offset": 9,
+          "line": 0,
+          "column": 9
+        },
+        "end": {
+          "offset": 49,
+          "line": 0,
+          "column": 49
+        }
+      }
+    }
+  }
+]

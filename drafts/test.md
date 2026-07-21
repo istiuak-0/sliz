@@ -6,6 +6,8 @@ const Avatar = tml! {
         isLogIn: boolean = false
     }
 
+
+
     <div class="avatar">
         <img src={user.avatar} alt={user.name} />
     </div>

@@ -148,6 +148,10 @@ export function Tokenize(chunk: MacroChunk) {
 			case CharCodes.Equals:
 				kind = TokenKind.Equals
 				break
+
+			case CharCodes.Dot:
+				kind = TokenKind.Dot
+				break
 		}
 
 		if (kind !== undefined) {

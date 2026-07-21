@@ -2,6 +2,8 @@ import { readFileSync, writeFileSync } from 'fs'
 import { ExtractMacroBlocks } from '../src/extract/extract'
 import { Tokenize } from '../src/lexer/tokenize'
 import { TokenKind } from '../src/lexer/types'
+import { Parse } from '../src/parser/parse'
+import { NodeKind } from '../src/parser/types'
 
 const inputPath = process.argv[2]
 const outputPath = process.argv[3] || 'demo/output.json'
@@ -16,17 +18,13 @@ const chunks = ExtractMacroBlocks(source)
 
 const result = chunks.map((chunk) => {
 	const tokens = Tokenize(chunk)
-	const realTokens = tokens.filter((t) => t.kind !== TokenKind.EOF)
+	const ast = Parse(tokens)
 
 	return {
 		type: chunk.type,
-		range: { start: chunk.start, end: chunk.end },
+		sourceRange: { start: chunk.start, end: chunk.end },
 		content: chunk.content,
-		tokens: realTokens.map((t) => ({
-			kind: TokenKind[t.kind],
-			value: t.value,
-			range: t.range,
-		})),
+		ast,
 	}
 })
 
@@ -35,12 +33,50 @@ writeFileSync(outputPath, JSON.stringify(result, null, 2))
 console.log(`Extracted ${chunks.length} macro blocks from ${inputPath}`)
 console.log()
 
-for (const block of result) {
-	console.log(`[${block.type}] ${block.range.start}..${block.range.end}`)
-	console.log(`  ${block.tokens.length} tokens`)
-	for (const tok of block.tokens) {
-		const val = tok.value === null ? '' : ` ${tok.value}`
-		console.log(`    ${tok.kind.padEnd(15)} ${tok.range.start.offset}..${tok.range.end.offset}${val}`)
+function printNode(node: any, indent: number) {
+	const pad = '  '.repeat(indent)
+
+	switch (node.kind) {
+		case NodeKind.Program:
+			for (const child of node.children) printNode(child, indent)
+			break
+		case NodeKind.Text:
+			console.log(`${pad}Text: ${JSON.stringify(node.value)}`)
+			break
+		case NodeKind.Expr:
+			console.log(`${pad}Expr: {${node.value}}`)
+			break
+		case NodeKind.Tag:
+			console.log(`${pad}<${node.name}>`)
+			for (const attr of node.attrs) printNode(attr, indent + 1)
+			for (const child of node.children) printNode(child, indent + 1)
+			console.log(`${pad}</${node.name}>`)
+			break
+		case NodeKind.SelfClose:
+			console.log(`${pad}<${node.name} />`)
+			for (const attr of node.attrs) printNode(attr, indent + 1)
+			break
+		case NodeKind.Attr:
+			const dot = node.dot ? '.' : ''
+			if (node.value) {
+				console.log(`${pad}${dot}${node.name} = ${node.value.kind === NodeKind.Expr ? '{' + node.value.value + '}' : JSON.stringify(node.value.value)}`)
+			} else {
+				console.log(`${pad}${dot}${node.name}`)
+			}
+			break
+		case NodeKind.If:
+			console.log(`${pad}@if(${node.condition})`)
+			for (const child of node.children) printNode(child, indent + 1)
+			break
+		case NodeKind.Else:
+			console.log(`${pad}@else`)
+			for (const child of node.children) printNode(child, indent + 1)
+			break
 	}
+}
+
+for (const block of result) {
+	console.log(`[${block.type}] ${block.sourceRange.start}..${block.sourceRange.end}`)
+	printNode(block.ast, 1)
 	console.log()
 }

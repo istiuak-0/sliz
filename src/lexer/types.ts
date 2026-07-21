@@ -19,19 +19,20 @@ export enum TokenKind {
 	CloseParen, // )
 
 	Equals, // =
+	Dot, // .
 
 	Expression,
 
 	EOF,
 }
 
-interface SourcePosition {
+export interface SourcePosition {
 	offset: number
 	line: number
 	column: number
 }
 
-interface SourceRange {
+export interface SourceRange {
 	start: SourcePosition
 	end: SourcePosition
 }
