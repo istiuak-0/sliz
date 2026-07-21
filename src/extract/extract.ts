@@ -32,33 +32,33 @@ import { Macros, type MacroChunks, type MacroChunkType } from './util'
  */
 export function ExtractMacroBlocks(source: string) {
 	const chunks: MacroChunks[] = []
-	let cursor = 0
+	let position = 0
 
-	while (cursor < source.length) {
-		const code = source.charCodeAt(cursor)
+	while (position < source.length) {
+		const code = source.charCodeAt(position)
 
 		// Skip string literals, content inside quotes is just data.
 		if (IsQuote(code)) {
-			cursor = SkipString(source, cursor)
+			position = SkipString(source, position)
 			continue
 		}
 
 		// `/` can start a line comment, block comment, or regex literal.
 		if (code === CharCodes.Slash) {
-			const next = source.charCodeAt(cursor + 1)
+			const next = source.charCodeAt(position + 1)
 
 			if (next === CharCodes.Slash) {
-				cursor = SkipLineComment(source, cursor)
+				position = SkipLineComment(source, position)
 				continue
 			}
 
 			if (next === CharCodes.Asterisk) {
-				cursor = SkipBlockComment(source, cursor)
+				position = SkipBlockComment(source, position)
 				continue
 			}
 
-			if (IsRegexStart(source, cursor)) {
-				cursor = SkipRegex(source, cursor)
+			if (IsRegexStart(source, position)) {
+				position = SkipRegex(source, position)
 				continue
 			}
 		}
@@ -66,24 +66,24 @@ export function ExtractMacroBlocks(source: string) {
 		// We're at ordinary code. Check if this character starts a macro keyword
 		// (macros always start with a letter: `t` for tml, `j` for jml).
 		if (IsIdentifierStart(code)) {
-			const macro = Macros.find((m) => source.startsWith(m.keyword, cursor))
+			const macro = Macros.find((m) => source.startsWith(m.keyword, position))
 
 			if (macro) {
-				const chunk = TryExtractMacroBlock(source, cursor, cursor + macro.keyword.length, macro.type)
+				const chunk = TryExtractMacroBlock(source, position, position + macro.keyword.length, macro.type)
 
 				if (chunk) {
 					chunks.push(chunk)
-					cursor = chunk.end
+					position = chunk.end
 					continue
 				}
 			}
 
-			// Not a macro — skip past this identifier so we don't re-examine it.
-			cursor = SkipIdentifier(source, cursor)
+			// Not a macro skip past this identifier so we don't re-examine it.
+			position = SkipIdentifier(source, position)
 			continue
 		}
 
-		cursor++
+		position++
 	}
 
 	return chunks
@@ -94,7 +94,7 @@ export function ExtractMacroBlocks(source: string) {
  *
  * After the keyword (`tml!` or `jml!`), there may be whitespace before `{`.
  * We skip that whitespace, then verify the next char is `{`. If not — the macro
- * is malformed (e.g. `tml!;` or `tml!foo`) — so we bail out.
+ * is malformed (e.g. `tml!;` or `tml!foo`), so we bail out.
  *
  * Once `{` is confirmed, `SkipBalanced` counts matching braces while respecting
  * strings, comments, and regex inside the body, giving us the position just after
@@ -103,7 +103,7 @@ export function ExtractMacroBlocks(source: string) {
 function TryExtractMacroBlock(source: string, macroStart: number, afterKeyword: number, type: MacroChunkType): MacroChunks | null {
 	const position = SkipWhiteSpace(source, afterKeyword)
 
-	// No `{` after the keyword — not a valid macro block.
+	// No `{` after the keyword, not a valid macro block.
 	if (source.charCodeAt(position) !== CharCodes.OpenBrace) {
 		return null
 	}

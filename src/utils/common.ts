@@ -49,7 +49,7 @@ export function SkipLineComment(source: string, start: number) {
 }
 
 /**
- * Skips a block comment (`/* ... * /`). Block comments do NOT nest in JS —
+ * Skips a block comment (`/* ... * /`). Block comments do NOT nest in JS
  * the first `*/` encountered closes the comment, even if there's a `/*` inside.
  * If the comment is never closed, we return the end of the source.
  */
@@ -181,7 +181,7 @@ export function SkipBalanced(source: string, start: number, openCode: number, cl
 	while (position < source.length && depth > 0) {
 		const code = source.charCodeAt(position)
 
-		// Skip string literals — content inside quotes is just data.
+		// Skip string literals content inside quotes is just data.
 		if (IsQuote(code)) {
 			position = SkipString(source, position)
 			continue
